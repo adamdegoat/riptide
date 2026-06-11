@@ -1,10 +1,10 @@
 {
  "status": {
   "live": true,
-  "last_run": "12 Jun 2026, 02:02 SGT",
-  "last_run_iso": "2026-06-12T02:02:00.164557+08:00",
-  "cycle": 3,
-  "next_run": "03:02",
+  "last_run": "12 Jun 2026, 03:02 SGT",
+  "last_run_iso": "2026-06-12T03:02:00.151340+08:00",
+  "cycle": 4,
+  "next_run": "04:02",
   "uptime_days": 0,
   "first_run": "12 Jun 2026",
   "last_recalib": "12 Jun 2026",
@@ -18,15 +18,15 @@
    "regime": "trend_down",
    "confidence": 0.579,
    "entry": 62639.23,
-   "price": 63741.98,
+   "price": 63531.4,
    "size": 0.71,
-   "unrealized_pct": 1.76,
-   "unrealized_r": 1.06,
-   "target": 66920.15,
-   "invalidation": 61411.32,
+   "unrealized_pct": 1.42,
+   "unrealized_r": 0.85,
+   "target": 66718.87,
+   "invalidation": 61193.92,
    "perf": {
     "return_pct": -3.4,
-    "hodl_pct": -25.0,
+    "hodl_pct": -25.2,
     "winrate": 30.6,
     "avg_r": -0.24,
     "profit_factor": 0.9,
@@ -1002,7 +1002,7 @@
      ],
      [
       1781193600000.0,
-      7504.88
+      7480.09
      ]
     ]
    },
@@ -1019,21 +1019,21 @@
    "since_bars": 0,
    "regime": "high_vol",
    "confidence": 0.464,
-   "entry": 1690.1,
-   "price": 1690.1,
+   "entry": 1685.12,
+   "price": 1685.12,
    "size": 0.46,
    "unrealized_pct": 0.0,
    "unrealized_r": 0.0,
-   "target": 1804.23,
-   "invalidation": 1606.41,
+   "target": 1799.25,
+   "invalidation": 1601.43,
    "perf": {
-    "return_pct": -12.9,
-    "hodl_pct": -40.2,
+    "return_pct": -12.8,
+    "hodl_pct": -40.3,
     "winrate": 24.4,
-    "avg_r": -0.28,
-    "profit_factor": 0.83,
-    "max_dd": -21.8,
-    "sharpe": -0.37,
+    "avg_r": -0.27,
+    "profit_factor": 0.84,
+    "max_dd": -21.6,
+    "sharpe": -0.36,
     "n_trades": 41,
     "equity_curve": [
      [
@@ -1518,7 +1518,7 @@
      ],
      [
       1781193600000.0,
-      8706.77
+      8722.97
      ]
     ],
     "hodl_curve": [
@@ -2004,7 +2004,7 @@
      ],
      [
       1781193600000.0,
-      5984.1
+      5966.46
      ]
     ]
    },
@@ -2017,12 +2017,12 @@
   }
  },
  "combined": {
-  "return_pct": -8.2,
-  "hodl_pct": -32.6,
+  "return_pct": -8.1,
+  "hodl_pct": -32.8,
   "n_trades": 90,
   "winrate": 27.5,
-  "max_dd": -21.8,
-  "sharpe": -0.3
+  "max_dd": -21.6,
+  "sharpe": -0.29
  },
  "trades": [
   {
@@ -2031,9 +2031,9 @@
    "entry_t": 1781150400000.0,
    "exit_t": 1781193600000.0,
    "entry": 1654.41,
-   "exit": 1690.1,
-   "pnl_pct": -2.16,
-   "r": -0.96,
+   "exit": 1685.12,
+   "pnl_pct": -1.86,
+   "r": -0.82,
    "regime": "trend_down",
    "win": false,
    "strategies": [
@@ -2943,7 +2943,7 @@
     "name": "donchian_slow",
     "status": "testing",
     "trades": 51,
-    "edge": -12.5
+    "edge": -12.3
    }
   ],
   "recalibrations": 1,
