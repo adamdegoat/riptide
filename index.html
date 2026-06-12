@@ -155,8 +155,27 @@ header{
 .btp-grid>div{background:var(--panel);padding:13px 14px}
 .btp-grid .k{font-size:9.5px;letter-spacing:1.1px;text-transform:uppercase;color:var(--ink3);font-weight:600}
 .btp-grid .v{font-size:17px;font-weight:700;margin-top:5px;font-family:'JetBrains Mono'}
+/* timeframe stack on position cards */
+.tfstack{display:flex;align-items:stretch;gap:6px;margin-top:14px;padding:11px 12px;border-radius:11px;
+  background:#0a121d;border:1px solid var(--line-soft)}
+.tf-cell{flex:1;text-align:center}
+.tf-lab{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--ink3);font-weight:600}
+.tf-val{font-size:13px;font-weight:700;margin-top:3px}
+.tf-arrow{display:flex;align-items:center;color:var(--ink3);font-size:13px}
+
+/* layer attribution */
+.layerbox{margin-top:16px;border-top:1px solid var(--line-soft);padding-top:16px}
+.layer-k{font-family:'Sora';font-size:13px;font-weight:700;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.layer-sub{font-size:11.5px;color:var(--ink3);margin:6px 0 14px;line-height:1.5;max-width:760px}
+.layer-row{display:flex;align-items:center;gap:13px;margin-bottom:10px}
+.layer-nm{width:160px;font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:7px}
+.layer-win{font-size:8.5px;letter-spacing:.8px;text-transform:uppercase;font-weight:800;color:#04150d;background:var(--grn);padding:2px 6px;border-radius:5px}
+.layer-bar{flex:1;height:13px;border-radius:7px;background:#0a121d;overflow:hidden;border:1px solid var(--line-soft)}
+.layer-fill{height:100%;border-radius:7px;transition:width 1s}
+.layer-v{width:54px;text-align:right;font-family:'JetBrains Mono';font-size:13px;font-weight:700}
 @media(max-width:880px){.portbanner{flex-direction:column;align-items:stretch;gap:16px}.pb-divider{width:auto;height:1px}.pb-bal{font-size:34px}
-  .btp-grid{grid-template-columns:repeat(2,1fr)}}
+  .btp-grid{grid-template-columns:repeat(2,1fr)}
+  .tfstack{flex-wrap:wrap}.layer-nm{width:120px}}
 .eqret{font-family:'JetBrains Mono';font-size:26px;font-weight:700;margin:8px 0 2px}
 .eqsub{font-size:12px;color:var(--ink2);margin-bottom:14px}
 .chartbox{position:relative;width:100%}
@@ -271,7 +290,7 @@ footer .em{color:var(--ink2)}
 
   <footer>
     <div>RIPTIDE · always-in long/short trend engine on BTC &amp; ETH · paper-traded notional <span class="em">$10,000</span> per asset</div>
-    <div>Deterministic core · self-recalibrating · zero LLM in the loop · the flip is the exit (no stops)</div>
+    <div>Multi-timeframe: <span class="em">1D bias · 4h decision · 1h timing</span> · deterministic core · self-recalibrating · zero LLM in the loop · the flip is the exit (no stops)</div>
     <div id="upd" class="updated"></div>
     <div style="margin-top:10px;font-size:10.5px">Educational simulation. Not financial advice. Past simulated performance does not guarantee future results.</div>
   </footer>
@@ -359,6 +378,29 @@ function portfolioBanner(s){
   </div>`;
 }
 
+function layerAttr(L){
+  const rows=[
+    ['4h decision only', L.base, '#5aa9ff'],
+    ['+ 1D bias filter', L.plus_1d, '#9b8cff'],
+    ['+ 1h timing (live)', L.full, '#2ad6c5'],
+  ];
+  const mx=Math.max(1,...rows.map(r=>Math.abs(r[1])));
+  const best=rows.reduce((a,b)=>b[1]>a[1]?b:a);
+  return `<div class="layerbox">
+    <div class="layer-k">Timeframe contribution <span class="btp-badge">edge each layer adds, on history</span></div>
+    <div class="layer-sub">Each row turns one layer on and re-runs the same backtest. This is the honest test of whether 1D &amp; 1h earn their place — the longest bar wins.</div>
+    ${rows.map(r=>{
+      const w=Math.abs(r[1])/mx*100;
+      const isBest=r[0]===best[0];
+      return `<div class="layer-row">
+        <div class="layer-nm">${r[0]}${isBest?' <span class="layer-win">best</span>':''}</div>
+        <div class="layer-bar"><div class="layer-fill" style="width:${w.toFixed(0)}%;background:${r[2]}"></div></div>
+        <div class="layer-v ${cls(r[1])}">${sign(r[1])}</div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
 function backtestPanel(b){
   if(!b) return '';
   const beat=b.beating;
@@ -374,6 +416,7 @@ function backtestPanel(b){
       <div><div class="k">Win Rate</div><div class="v">${b.winrate.toFixed(1)}%</div></div>
       <div><div class="k">Verdict</div><div class="v" style="font-size:13px;color:${beat?'var(--grn)':'var(--red)'}">${beat?'Beat hold':'Underperformed'}</div></div>
     </div>
+    ${b.layers?layerAttr(b.layers):''}
   </div>`;
 }
 
@@ -410,6 +453,21 @@ function stanceCard(sym,a){
       <div><div class="k">Target</div><div class="vv mono" style="color:var(--grn)">${fmtPx(a.target)}</div></div>
       <div><div class="k">Flip / Invalid.</div><div class="vv mono" style="color:var(--red)">${fmtPx(a.invalidation)}</div></div>
     </div>
+    ${a.tf?tfStack(a.tf):''}
+  </div>`;
+}
+
+function tfStack(tf){
+  const biasC = tf.daily_bias==='up'?'var(--grn)':tf.daily_bias==='down'?'var(--red)':'var(--ink2)';
+  const biasArrow = tf.daily_bias==='up'?'▲':tf.daily_bias==='down'?'▼':'■';
+  const fourC = tf.fourh==='LONG'?'var(--grn)':'var(--red)';
+  const okC = tf.hour_confirm?'var(--grn)':'var(--amber)';
+  return `<div class="tfstack">
+    <div class="tf-cell"><div class="tf-lab">1D bias</div><div class="tf-val" style="color:${biasC}">${biasArrow} ${tf.daily_bias}</div></div>
+    <div class="tf-arrow">→</div>
+    <div class="tf-cell"><div class="tf-lab">4h decision</div><div class="tf-val" style="color:${fourC}">${tf.fourh}</div></div>
+    <div class="tf-arrow">→</div>
+    <div class="tf-cell"><div class="tf-lab">1h timing</div><div class="tf-val" style="color:${okC}">${tf.hour_confirm?'confirmed':'waiting'}</div></div>
   </div>`;
 }
 
