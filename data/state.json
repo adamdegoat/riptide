@@ -1,10 +1,10 @@
 {
  "status": {
   "live": true,
-  "last_run": "12 Jun 2026, 09:07 SGT",
-  "last_run_iso": "2026-06-12T09:07:33.859081+08:00",
-  "cycle": 11,
-  "next_run": "10:07",
+  "last_run": "12 Jun 2026, 09:10 SGT",
+  "last_run_iso": "2026-06-12T09:10:03.101067+08:00",
+  "cycle": 12,
+  "next_run": "10:10",
   "uptime_days": 0,
   "first_run": "12 Jun 2026",
   "live_since": "12 Jun 2026",
@@ -19,12 +19,12 @@
    "regime": "trend_up",
    "confidence": 0.259,
    "entry": 62639.23,
-   "price": 63517.72,
+   "price": 63506.0,
    "size": 0.71,
-   "unrealized_pct": 1.4,
-   "unrealized_r": 0.91,
-   "target": 66451.34,
-   "invalidation": 61366.4,
+   "unrealized_pct": 1.38,
+   "unrealized_r": 0.9,
+   "target": 66439.62,
+   "invalidation": 61354.68,
    "perf": {
     "return_pct": 0.0,
     "hodl_pct": 0.0,
@@ -38,11 +38,19 @@
      [
       1781226453859,
       10000.0
+     ],
+     [
+      1781226603101,
+      10000.01
      ]
     ],
     "hodl_curve": [
      [
       1781226453859,
+      10000.0
+     ],
+     [
+      1781226603101,
       10000.0
      ]
     ]
@@ -67,12 +75,12 @@
    "regime": "chop",
    "confidence": 0.238,
    "entry": 1654.41,
-   "price": 1670.3,
+   "price": 1669.49,
    "size": 0.61,
-   "unrealized_pct": -0.96,
-   "unrealized_r": -0.46,
-   "target": 1566.77,
-   "invalidation": 1746.22,
+   "unrealized_pct": -0.91,
+   "unrealized_r": -0.44,
+   "target": 1565.96,
+   "invalidation": 1745.41,
    "perf": {
     "return_pct": 0.0,
     "hodl_pct": 0.0,
@@ -86,18 +94,26 @@
      [
       1781226453859,
       10000.0
+     ],
+     [
+      1781226603101,
+      10000.0
      ]
     ],
     "hodl_curve": [
      [
       1781226453859,
       10000.0
+     ],
+     [
+      1781226603101,
+      10000.0
      ]
     ]
    },
    "backtest": {
     "return_pct": -9.1,
-    "hodl_pct": -40.8,
+    "hodl_pct": -40.9,
     "winrate": 25.0,
     "n_trades": 40
    },
@@ -119,8 +135,8 @@
  },
  "backtest": {
   "return_pct": -5.9,
-  "hodl_pct": -32.9,
-  "edge": 27.0,
+  "hodl_pct": -33.0,
+  "edge": 27.1,
   "winrate": 27.8,
   "n_trades": 89,
   "beating": true,
