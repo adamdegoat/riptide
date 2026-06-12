@@ -368,7 +368,7 @@ function portfolioBanner(s){
   const dep=20000, pnl=bal-dep, ret=pnl/dep*100; const hodl=s.combined.hodl_pct; const beat=ret-hodl;
   return `<div class="portbanner">
     <div class="pb-main">
-      <div class="pb-k">Total Paper Portfolio</div>
+      <div class="pb-k">Adam's Portfolio</div>
       <div class="pb-bal mono">${fmtUSD(bal,2)}</div>
       <div class="pb-sub">$20,000 deployed · <b class="${cls(pnl)}">${(pnl>=0?'+':'−')+fmtUSD(Math.abs(pnl),2)}</b> <span class="${cls(ret)}">(${sign(ret)})</span></div>
     </div>
@@ -489,7 +489,7 @@ function renderDash(s){
     <div class="cards">${stanceCard('BTC',s.assets.BTC)}${stanceCard('ETH',s.assets.ETH)}</div>
   </div>
   <div class="sec">
-    <div class="sec-h"><h2>Paper Portfolio</h2><span class="hint">$10,000 per asset · started today</span><div class="rule"></div></div>
+    <div class="sec-h"><h2>Adam's Portfolio</h2><span class="hint">$10,000 per asset · started today</span><div class="rule"></div></div>
     ${portfolioBanner(s)}
     <div class="perfgrid" style="margin-top:18px">
       ${eqCard('BTC','#f08c00',s.assets.BTC,false,10000,balOf(s.assets.BTC))}
@@ -581,7 +581,7 @@ function renderLearn(s){
       <div class="glossary">
         <div class="gl"><div class="gt">Status dot</div><div class="gd">Green = running. Tells you the engine is alive and updating.</div></div>
         <div class="gl"><div class="gt">Position cards</div><div class="gd">LONG / SHORT / FLAT for each coin, plus the daily trend and your trailing stop.</div></div>
-        <div class="gl"><div class="gt">Paper Portfolio</div><div class="gd">Your live $ balance vs just holding. "Edge" = how much better than holding.</div></div>
+        <div class="gl"><div class="gt">Adam's Portfolio</div><div class="gd">Your live $ balance vs just holding. "Edge" = how much better than holding.</div></div>
         <div class="gl"><div class="gt">Track Record</div><div class="gd">The 3-year proof, year by year. Reference only.</div></div>
       </div>
     </div>
