@@ -1,37 +1,32 @@
 {
  "status": {
   "live": true,
-  "last_run": "12 Jun 2026, 10:02 SGT",
-  "last_run_iso": "2026-06-12T10:02:00.157423+08:00",
-  "cycle": 15,
-  "next_run": "11:02",
+  "last_run": "12 Jun 2026, 10:10 SGT",
+  "last_run_iso": "2026-06-12T10:10:07.577314+08:00",
+  "cycle": 16,
+  "next_run": "11:10",
   "uptime_days": 0,
   "first_run": "12 Jun 2026",
   "live_since": "12 Jun 2026",
   "last_recalib": "12 Jun 2026",
-  "timeframes": "1D bias \u00b7 4h decision \u00b7 1h timing",
-  "version": "2.0"
+  "engine": "Daily gate \u00b7 4h Donchian breakout \u00b7 ATR trailing stop \u00b7 vol-sized",
+  "version": "3.0"
  },
  "assets": {
   "BTC": {
-   "stance": "LONG",
-   "since": "10 Jun 20:00",
-   "since_bars": 8,
-   "regime": "trend_up",
-   "confidence": 0.269,
-   "entry": 62639.23,
-   "price": 63466.19,
-   "size": 0.71,
-   "unrealized_pct": 1.32,
-   "unrealized_r": 0.82,
-   "target": 66546.98,
-   "invalidation": 61206.94,
+   "stance": "FLAT",
+   "since": "\u2014",
+   "since_bars": 0,
+   "entry": 0,
+   "price": 63665.22,
+   "size": 0,
+   "unrealized_pct": 0.0,
+   "unrealized_r": 0,
+   "trail": null,
+   "donchian_hi": 68146.3,
+   "donchian_lo": 59130.91,
    "tf": {
-    "daily_bias": "down",
-    "fourh": "LONG",
-    "fourh_net": 0.677,
-    "hour_confirm": true,
-    "gated": 1
+    "daily_bias": "down"
    },
    "perf": {
     "return_pct": 0.0,
@@ -42,59 +37,65 @@
     "max_dd": 0,
     "sharpe": 0,
     "n_trades": 0,
+    "exposure": 0.0,
     "equity_curve": [
      [
-      1781226453859,
-      10000.0
-     ],
-     [
-      1781229720157,
+      1781230207577,
       10000.0
      ]
     ],
     "hodl_curve": [
      [
-      1781226453859,
-      10000.0
-     ],
-     [
-      1781229720157,
+      1781230207577,
       10000.0
      ]
     ]
    },
    "backtest": {
-    "return_pct": -15.7,
-    "hodl_pct": -24.8,
-    "winrate": 23.3,
-    "n_trades": 43
-   },
-   "regime_dist": {
-    "trend_down": 44,
-    "trend_up": 30,
-    "chop": 23,
-    "high_vol": 2
+    "return_pct": 104.2,
+    "hodl_pct": 140.6,
+    "winrate": 43.9,
+    "avg_r": 0.71,
+    "profit_factor": 1.88,
+    "max_dd": -17.4,
+    "sharpe": 1.65,
+    "n_trades": 66,
+    "exposure": 28.1,
+    "by_year": [
+     {
+      "year": 2023,
+      "ret": 8.5
+     },
+     {
+      "year": 2024,
+      "ret": 59.1
+     },
+     {
+      "year": 2025,
+      "ret": -0.3
+     },
+     {
+      "year": 2026,
+      "ret": 18.7
+     }
+    ],
+    "start_date": "18 Jun 23 00:00"
    }
   },
   "ETH": {
-   "stance": "SHORT",
-   "since": "22 May 12:00",
-   "since_bars": 124,
-   "regime": "chop",
-   "confidence": 0.246,
-   "entry": 2128.7,
-   "price": 1667.8,
-   "size": 0.64,
-   "unrealized_pct": 21.65,
-   "unrealized_r": 9.9,
-   "target": 1558.37,
-   "invalidation": 1748.05,
+   "stance": "FLAT",
+   "since": "\u2014",
+   "since_bars": 0,
+   "entry": 0,
+   "price": 1673.44,
+   "size": 0,
+   "unrealized_pct": 0.0,
+   "unrealized_r": 0,
+   "trail": null,
+   "donchian_hi": 1943.87,
+   "donchian_lo": 1505.68,
    "tf": {
-    "daily_bias": "down",
-    "fourh": "SHORT",
-    "fourh_net": -0.213,
-    "hour_confirm": false,
-    "gated": 3
+    "daily_bias": "down"
    },
    "perf": {
     "return_pct": 0.0,
@@ -105,38 +106,49 @@
     "max_dd": 0,
     "sharpe": 0,
     "n_trades": 0,
+    "exposure": 0.0,
     "equity_curve": [
      [
-      1781226453859,
-      10000.0
-     ],
-     [
-      1781229720157,
+      1781230207577,
       10000.0
      ]
     ],
     "hodl_curve": [
      [
-      1781226453859,
-      10000.0
-     ],
-     [
-      1781229720157,
+      1781230207577,
       10000.0
      ]
     ]
    },
    "backtest": {
-    "return_pct": -7.9,
-    "hodl_pct": -40.7,
-    "winrate": 23.5,
-    "n_trades": 34
-   },
-   "regime_dist": {
-    "trend_down": 42,
-    "chop": 33,
-    "trend_up": 22,
-    "high_vol": 3
+    "return_pct": 211.4,
+    "hodl_pct": -9.1,
+    "winrate": 45.3,
+    "avg_r": 0.47,
+    "profit_factor": 2.06,
+    "max_dd": -14.3,
+    "sharpe": 1.8,
+    "n_trades": 64,
+    "exposure": 27.4,
+    "by_year": [
+     {
+      "year": 2023,
+      "ret": -7.9
+     },
+     {
+      "year": 2024,
+      "ret": 73.7
+     },
+     {
+      "year": 2025,
+      "ret": 46.9
+     },
+     {
+      "year": 2026,
+      "ret": 32.4
+     }
+    ],
+    "start_date": "18 Jun 23 00:00"
    }
   }
  },
@@ -149,139 +161,45 @@
   "sharpe": 0.0
  },
  "backtest": {
-  "return_pct": -11.8,
-  "hodl_pct": -32.8,
-  "edge": 21.0,
-  "winrate": 23.4,
-  "n_trades": 77,
+  "return_pct": 157.8,
+  "hodl_pct": 65.8,
+  "edge": 92.0,
+  "winrate": 44.6,
+  "profit_factor": 1.97,
+  "sharpe": 1.73,
+  "max_dd": -17.4,
+  "exposure": 27.8,
+  "n_trades": 130,
   "beating": true,
-  "start_date": "30 Jan 04:00",
-  "layers": {
-   "base": 26.8,
-   "plus_1d": 20.2,
-   "full": 21.0
-  }
+  "start_date": "18 Jun 23 00:00",
+  "by_year": [
+   {
+    "year": 2023,
+    "ret": 0.3
+   },
+   {
+    "year": 2024,
+    "ret": 66.4
+   },
+   {
+    "year": 2025,
+    "ret": 23.3
+   },
+   {
+    "year": 2026,
+    "ret": 25.5
+   }
+  ]
  },
  "trades": [],
  "learning": {
-  "weights": {
-   "ema_trend": 0.211,
-   "donchian": 0.151,
-   "macd": 0.477,
-   "momentum": 0.161
-  },
-  "weight_history": [
-   {
-    "t": 1771056000000.0,
-    "ema_trend": 0.303,
-    "donchian": 0.243,
-    "macd": 0.211,
-    "momentum": 0.243
-   },
-   {
-    "t": 1771804800000.0,
-    "ema_trend": 0.304,
-    "donchian": 0.253,
-    "macd": 0.225,
-    "momentum": 0.218
-   },
-   {
-    "t": 1772452800000.0,
-    "ema_trend": 0.423,
-    "donchian": 0.236,
-    "macd": 0.214,
-    "momentum": 0.127
-   },
-   {
-    "t": 1773849600000.0,
-    "ema_trend": 0.392,
-    "donchian": 0.241,
-    "macd": 0.222,
-    "momentum": 0.144
-   },
-   {
-    "t": 1774396800000.0,
-    "ema_trend": 0.375,
-    "donchian": 0.258,
-    "macd": 0.199,
-    "momentum": 0.168
-   },
-   {
-    "t": 1775102400000.0,
-    "ema_trend": 0.349,
-    "donchian": 0.256,
-    "macd": 0.206,
-    "momentum": 0.189
-   },
-   {
-    "t": 1776096000000.0,
-    "ema_trend": 0.275,
-    "donchian": 0.299,
-    "macd": 0.25,
-    "momentum": 0.176
-   },
-   {
-    "t": 1777291200000.0,
-    "ema_trend": 0.22,
-    "donchian": 0.324,
-    "macd": 0.247,
-    "momentum": 0.209
-   },
-   {
-    "t": 1777593600000.0,
-    "ema_trend": 0.245,
-    "donchian": 0.303,
-    "macd": 0.242,
-    "momentum": 0.21
-   },
-   {
-    "t": 1778616000000.0,
-    "ema_trend": 0.175,
-    "donchian": 0.318,
-    "macd": 0.264,
-    "momentum": 0.243
-   },
-   {
-    "t": 1778774400000.0,
-    "ema_trend": 0.161,
-    "donchian": 0.286,
-    "macd": 0.324,
-    "momentum": 0.229
-   },
-   {
-    "t": 1779451200000.0,
-    "ema_trend": 0.237,
-    "donchian": 0.26,
-    "macd": 0.288,
-    "momentum": 0.216
-   },
-   {
-    "t": 1780214400000.0,
-    "ema_trend": 0.217,
-    "donchian": 0.234,
-    "macd": 0.239,
-    "momentum": 0.31
-   },
-   {
-    "t": 1781064000000.0,
-    "ema_trend": 0.201,
-    "donchian": 0.141,
-    "macd": 0.479,
-    "momentum": 0.178
-   }
-  ],
   "params": {
-   "ema_fast": 10,
-   "ema_slow": 30,
-   "ema_macro": 200,
-   "adx_len": 14,
-   "don": 20,
-   "roc": 20,
-   "d_ema_fast": 20,
-   "d_ema_slow": 50,
-   "h_ema_fast": 9,
-   "h_ema_slow": 21,
-   "bias_mult": 2.0
+   "don_entry": 55,
+   "atr_len": 14,
+   "trail_mult": 3.0,
+   "d_ema": 100,
+   "vol_len": 30,
+   "target_vol": 0.02
   },
   "param_changes": [
    {
@@ -291,29 +209,18 @@
      10,
      30
     ]
-   }
-  ],
-  "regime_dist": {
-   "trend_down": 44,
-   "trend_up": 30,
-   "chop": 23,
-   "high_vol": 2
-  },
-  "shadow": [
-   {
-    "name": "ema_fast_12",
-    "status": "testing",
-    "trades": 24,
-    "edge": -3.4
    },
    {
-    "name": "donchian_slow",
-    "status": "testing",
-    "trades": 52,
-    "edge": -11.9
+    "t": "2026-06-12T10:10:07.577314+08:00",
+    "field": "don/trail/dEMA",
+    "to": [
+     55,
+     3.0,
+     100
+    ]
    }
   ],
-  "recalibrations": 2,
+  "recalibrations": 3,
   "edge": {
    "beating_hodl": false,
    "z": 0,

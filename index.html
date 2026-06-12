@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-<title>RIPTIDE · Adaptive BTC/ETH Engine</title>
+<title>RIPTIDE · Systematic BTC/ETH Trend Engine</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -17,8 +15,7 @@
   --teal:#2ad6c5; --teal-d:#11a596;
   --grn:#34e2a0; --grn-d:#0f9d63;
   --red:#ff5c72; --red-d:#c5273e;
-  --amber:#ffb547; --blue:#5aa9ff; --violet:#9b8cff;
-  --long:#34e2a0; --short:#ff5c72;
+  --amber:#ffb547; --blue:#5aa9ff; --violet:#9b8cff; --slate:#7d8ea6;
   --glow-grn:0 0 22px rgba(52,226,160,.35);
   --glow-red:0 0 22px rgba(255,92,114,.32);
   --shadow:0 18px 50px -20px rgba(0,0,0,.75);
@@ -26,111 +23,102 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
-body{
-  font-family:'Inter',system-ui,sans-serif;
+body{font-family:'Inter',system-ui,sans-serif;
   background:
     radial-gradient(1100px 600px at 82% -8%, rgba(42,214,197,.10), transparent 60%),
     radial-gradient(900px 520px at 8% 6%, rgba(91,169,255,.08), transparent 55%),
     var(--bg);
   color:var(--ink); line-height:1.5; min-height:100vh;
-  -webkit-font-smoothing:antialiased; padding:0 0 80px;
-  overflow-x:hidden;
-}
+  -webkit-font-smoothing:antialiased; padding:0 0 80px; overflow-x:hidden;}
 .mono{font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums}
-.wrap{max-width:1280px;margin:0 auto;padding:0 22px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 22px}
 a{color:inherit;text-decoration:none}
 
-/* ===== top bar ===== */
-header{
-  position:sticky;top:0;z-index:50;
-  backdrop-filter:blur(14px);
-  background:linear-gradient(180deg,rgba(7,11,18,.92),rgba(7,11,18,.72));
-  border-bottom:1px solid var(--line-soft);
-}
-.topbar{display:flex;align-items:center;gap:18px;padding:14px 22px;max-width:1280px;margin:0 auto}
+header{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
+  background:linear-gradient(180deg,rgba(7,11,18,.92),rgba(7,11,18,.72));border-bottom:1px solid var(--line-soft);}
+.topbar{display:flex;align-items:center;gap:18px;padding:13px 22px;max-width:1240px;margin:0 auto;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:13px}
 .logo{width:42px;height:42px;flex:none}
 .brand h1{font-family:'Sora',sans-serif;font-size:22px;letter-spacing:.5px;font-weight:800;
   background:linear-gradient(92deg,#eafffb,#56e3d2 60%,#5aa9ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.brand .sub{font-size:11px;color:var(--ink3);letter-spacing:2.4px;text-transform:uppercase;margin-top:1px;font-weight:600}
-.topbar .spacer{flex:1}
-.livepill{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;
-  padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--panel)}
+.brand .sub{font-size:10.5px;color:var(--ink3);letter-spacing:2px;text-transform:uppercase;margin-top:1px;font-weight:600}
+.spacer{flex:1}
+.tabs-nav{display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:4px}
+.tabbtn{font-size:13px;font-weight:600;padding:8px 16px;border-radius:8px;cursor:pointer;color:var(--ink3);border:0;background:none;font-family:inherit}
+.tabbtn.on{color:var(--ink);background:var(--panel2);box-shadow:inset 0 0 0 1px var(--line)}
+.livepill{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--panel)}
 .dot{width:9px;height:9px;border-radius:50%;background:var(--grn);box-shadow:var(--glow-grn);animation:pulse 2s infinite}
 .dot.stale{background:var(--red);box-shadow:var(--glow-red);animation:none}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
 
-/* ===== status strip ===== */
-.statusgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;
-  background:var(--line-soft);border:1px solid var(--line-soft);border-radius:14px;overflow:hidden;margin-top:22px}
+.statusgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:14px;overflow:hidden;margin-top:22px}
 .statcell{background:var(--panel);padding:13px 16px}
-.statcell .k{font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:var(--ink3);font-weight:600}
-.statcell .v{font-size:16px;font-weight:700;margin-top:5px;letter-spacing:.3px}
+.statcell .k{font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink3);font-weight:600}
+.statcell .v{font-size:15px;font-weight:700;margin-top:5px;letter-spacing:.3px}
 .statcell .v small{font-size:11px;color:var(--ink2);font-weight:500}
+.enginebar{margin-top:10px;font-size:12px;color:var(--ink2);text-align:center;letter-spacing:.4px}
+.enginebar b{color:var(--teal)}
 
-/* ===== section heading ===== */
-.sec{margin-top:38px}
-.sec-h{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
-.sec-h h2{font-family:'Sora',sans-serif;font-size:15px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;color:#cdd9e8}
+.sec{margin-top:36px}
+.sec-h{display:flex;align-items:baseline;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.sec-h h2{font-family:'Sora',sans-serif;font-size:15px;letter-spacing:1.4px;text-transform:uppercase;font-weight:700;color:#cdd9e8}
 .sec-h .hint{font-size:12px;color:var(--ink3)}
-.sec-h .rule{flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+.sec-h .rule{flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent);min-width:30px}
 
-/* ===== stance cards ===== */
 .cards{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
-  border-radius:var(--r);padding:22px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
-.card::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;
-  background:linear-gradient(90deg,transparent,var(--accent,#2ad6c5),transparent);opacity:.9}
-.card.long{--accent:var(--long)} .card.short{--accent:var(--short)}
-.card .glowblob{position:absolute;width:260px;height:260px;border-radius:50%;
-  filter:blur(70px);opacity:.16;top:-120px;right:-80px;background:var(--accent,#2ad6c5);pointer-events:none}
+.card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:var(--r);padding:22px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,transparent,var(--accent,#2ad6c5),transparent);opacity:.9}
+.card.long{--accent:var(--grn)} .card.short{--accent:var(--red)} .card.flat{--accent:var(--slate)}
+.card .glowblob{position:absolute;width:260px;height:260px;border-radius:50%;filter:blur(70px);opacity:.14;top:-120px;right:-80px;background:var(--accent,#2ad6c5);pointer-events:none}
 .cardtop{display:flex;align-items:center;justify-content:space-between;position:relative}
 .assetname{display:flex;align-items:center;gap:11px}
-.coin{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:15px;
-  font-family:'Sora';color:#07101a}
+.coin{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:15px;font-family:'Sora';color:#07101a}
 .coin.btc{background:linear-gradient(135deg,#f7b955,#f08c00)}
 .coin.eth{background:linear-gradient(135deg,#8aa0ff,#5d6dff)}
 .assetname .nm{font-family:'Sora';font-weight:700;font-size:19px}
 .assetname .px{font-size:12px;color:var(--ink2)}
-.stancetag{font-family:'Sora';font-weight:800;font-size:15px;letter-spacing:1.4px;
-  padding:9px 18px;border-radius:11px;display:flex;align-items:center;gap:8px}
+.stancetag{font-family:'Sora';font-weight:800;font-size:15px;letter-spacing:1.2px;padding:9px 18px;border-radius:11px;display:flex;align-items:center;gap:8px}
 .stancetag.long{color:#04150d;background:linear-gradient(135deg,var(--grn),var(--grn-d));box-shadow:var(--glow-grn)}
 .stancetag.short{color:#1c0207;background:linear-gradient(135deg,var(--red),var(--red-d));box-shadow:var(--glow-red)}
-.stancetag .arr{font-size:13px}
+.stancetag.flat{color:var(--ink);background:#1a2433;box-shadow:none;border:1px solid var(--line)}
 .cardmeta{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;position:relative}
-.chip{font-size:11px;font-weight:600;padding:5px 11px;border-radius:8px;background:var(--panel);
-  border:1px solid var(--line);color:var(--ink2)}
+.chip{font-size:11px;font-weight:600;padding:5px 11px;border-radius:8px;background:var(--panel);border:1px solid var(--line);color:var(--ink2)}
 .chip b{color:var(--ink)}
-.confbar{margin-top:16px;position:relative}
-.confbar .lab{display:flex;justify-content:space-between;font-size:11px;color:var(--ink3);margin-bottom:6px;
-  letter-spacing:.5px;font-weight:600;text-transform:uppercase}
-.track{height:8px;border-radius:6px;background:#0a121d;overflow:hidden;border:1px solid var(--line-soft)}
-.fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--accent),#fff3);transition:width .8s}
+.chip.bias-up b{color:var(--grn)} .chip.bias-down b{color:var(--red)} .chip.bias-neutral b{color:var(--ink2)}
 .unreal{display:flex;align-items:flex-end;gap:18px;margin-top:18px;position:relative}
 .unreal .big{font-family:'JetBrains Mono';font-size:30px;font-weight:700;line-height:1}
 .unreal .rr{font-size:12px;color:var(--ink2)}
-.posrow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--line-soft);
-  border:1px solid var(--line-soft);border-radius:12px;overflow:hidden;margin-top:18px;position:relative}
+.posrow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:12px;overflow:hidden;margin-top:18px;position:relative}
 .posrow div{background:var(--panel);padding:11px 13px}
-.posrow .k{font-size:9.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink3);font-weight:600}
+.posrow .k{font-size:9.5px;letter-spacing:1.1px;text-transform:uppercase;color:var(--ink3);font-weight:600}
 .posrow .vv{font-size:14px;font-weight:600;margin-top:4px}
+.flatbox{margin-top:18px;padding:16px;border-radius:12px;background:rgba(125,142,166,.06);border:1px solid var(--line);position:relative}
+.flatbox .ttl{font-size:13px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px}
+.flatbox .sub{font-size:12px;color:var(--ink2);margin-top:6px;line-height:1.5}
 
-/* ===== perf / equity ===== */
 .perfgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
-.eqcard{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
-  border-radius:var(--r);padding:20px;box-shadow:var(--shadow)}
+.eqcard{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:var(--shadow)}
 .eqhead{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px;gap:10px}
 .eqhead .t{font-family:'Sora';font-weight:700;font-size:15px;display:flex;align-items:center;gap:9px}
 .eqhead .pin{width:9px;height:9px;border-radius:3px}
 .baltag{text-align:right}
 .baltag .k{display:block;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--ink3);font-weight:600}
 .baltag .v{font-size:15px;font-weight:700;margin-top:2px}
+.eqret{font-family:'JetBrains Mono';font-size:26px;font-weight:700;margin:8px 0 2px}
+.eqsub{font-size:12px;color:var(--ink2);margin-bottom:14px}
+.chartbox{position:relative;width:100%}
+.legend{display:flex;gap:16px;font-size:11px;color:var(--ink2);margin-top:12px;font-weight:500}
+.legend i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+.statline{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:11px;overflow:hidden;margin-top:16px}
+.statline div{background:var(--panel);padding:10px 12px}
+.statline .k{font-size:9.5px;letter-spacing:1px;text-transform:uppercase;color:var(--ink3);font-weight:600}
+.statline .v{font-size:15px;font-weight:700;margin-top:3px}
+.freshchart{position:relative;height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;border:1px dashed var(--line);border-radius:12px;background:rgba(91,169,255,.03);color:var(--ink3);font-size:12px;text-align:center;padding:0 12px}
+.freshchart .flatline{width:80%;height:2px;background:repeating-linear-gradient(90deg,var(--teal) 0 8px,transparent 8px 14px);opacity:.5;border-radius:2px}
 
-/* paper portfolio banner */
-.portbanner{display:flex;align-items:center;gap:26px;background:linear-gradient(135deg,var(--panel2),var(--panel));
-  border:1px solid var(--line);border-radius:var(--r);padding:20px 26px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.portbanner{display:flex;align-items:center;gap:26px;background:linear-gradient(135deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:var(--r);padding:20px 26px;box-shadow:var(--shadow);position:relative;overflow:hidden}
 .portbanner::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--teal),var(--blue))}
-.pb-main .pb-k{font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:var(--ink3);font-weight:600}
+.pb-main .pb-k{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink3);font-weight:600}
 .pb-bal{font-size:40px;font-weight:700;line-height:1.05;margin:4px 0;letter-spacing:.5px}
 .pb-sub{font-size:13px;color:var(--ink2)}
 .pb-divider{width:1px;align-self:stretch;background:var(--line)}
@@ -138,127 +126,104 @@ header{
 .pb-cmprow{display:flex;justify-content:space-between;font-size:13px;color:var(--ink2)}
 .pb-cmprow.edge{border-top:1px solid var(--line-soft);padding-top:7px;margin-top:1px;font-weight:600;color:var(--ink)}
 .pb-cmprow b{font-size:14px}
-.bt-note{margin-top:16px;font-size:12px;color:var(--ink2);line-height:1.6;background:rgba(91,169,255,.05);
-  border:1px solid rgba(91,169,255,.15);border-radius:12px;padding:13px 16px}
-.bt-note b{color:var(--ink)}
-.freshchart{position:relative;height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
-  border:1px dashed var(--line);border-radius:12px;background:rgba(91,169,255,.03);color:var(--ink3);font-size:12px}
-.freshchart .flatline{width:80%;height:2px;background:repeating-linear-gradient(90deg,var(--teal) 0 8px,transparent 8px 14px);opacity:.5;border-radius:2px}
+.note{margin-top:16px;font-size:12px;color:var(--ink2);line-height:1.6;background:rgba(91,169,255,.05);border:1px solid rgba(91,169,255,.15);border-radius:12px;padding:13px 16px}
+.note b{color:var(--ink)}
 
-/* backtest validation panel */
-.btpanel{margin-top:16px;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;box-shadow:var(--shadow)}
+/* backtest */
+.btpanel{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:var(--r);padding:22px;box-shadow:var(--shadow)}
 .btp-head{margin-bottom:16px}
-.btp-k{font-family:'Sora';font-size:14px;font-weight:700;display:flex;align-items:center;gap:10px}
+.btp-k{font-family:'Sora';font-size:14px;font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .btp-badge{font-size:9px;letter-spacing:1px;text-transform:uppercase;font-weight:700;color:var(--ink3);background:var(--panel);border:1px solid var(--line);padding:3px 8px;border-radius:6px}
-.btp-sub{font-size:12px;color:var(--ink2);margin-top:7px;line-height:1.55;max-width:760px}
-.btp-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:11px;overflow:hidden}
+.btp-sub{font-size:12px;color:var(--ink2);margin-top:7px;line-height:1.55;max-width:820px}
+.btp-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:11px;overflow:hidden}
 .btp-grid>div{background:var(--panel);padding:13px 14px}
-.btp-grid .k{font-size:9.5px;letter-spacing:1.1px;text-transform:uppercase;color:var(--ink3);font-weight:600}
+.btp-grid .k{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--ink3);font-weight:600}
 .btp-grid .v{font-size:17px;font-weight:700;margin-top:5px;font-family:'JetBrains Mono'}
-/* timeframe stack on position cards */
-.tfstack{display:flex;align-items:stretch;gap:6px;margin-top:14px;padding:11px 12px;border-radius:11px;
-  background:#0a121d;border:1px solid var(--line-soft)}
-.tf-cell{flex:1;text-align:center}
-.tf-lab{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--ink3);font-weight:600}
-.tf-val{font-size:13px;font-weight:700;margin-top:3px}
-.tf-arrow{display:flex;align-items:center;color:var(--ink3);font-size:13px}
+.yearbox{margin-top:18px;border-top:1px solid var(--line-soft);padding-top:16px}
+.year-k{font-family:'Sora';font-size:13px;font-weight:700;margin-bottom:4px}
+.year-sub{font-size:11.5px;color:var(--ink3);margin-bottom:14px}
+.yearrow{display:flex;align-items:center;gap:13px;margin-bottom:9px}
+.year-nm{width:52px;font-size:13px;font-weight:700;font-family:'JetBrains Mono'}
+.year-track{flex:1;height:16px;border-radius:8px;background:#0a121d;border:1px solid var(--line-soft);position:relative;overflow:hidden;display:flex;align-items:center}
+.year-fill{height:100%;border-radius:7px}
+.year-v{width:60px;text-align:right;font-family:'JetBrains Mono';font-size:13px;font-weight:700}
+.cmp2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.cmpcard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.cmpcard .cn{font-family:'Sora';font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.cmpcard .ln{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink2);padding:4px 0}
+.cmpcard .ln b{font-family:'JetBrains Mono';font-weight:700}
 
-/* layer attribution */
-.layerbox{margin-top:16px;border-top:1px solid var(--line-soft);padding-top:16px}
-.layer-k{font-family:'Sora';font-size:13px;font-weight:700;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
-.layer-sub{font-size:11.5px;color:var(--ink3);margin:6px 0 14px;line-height:1.5;max-width:760px}
-.layer-row{display:flex;align-items:center;gap:13px;margin-bottom:10px}
-.layer-nm{width:160px;font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:7px}
-.layer-win{font-size:8.5px;letter-spacing:.8px;text-transform:uppercase;font-weight:800;color:#04150d;background:var(--grn);padding:2px 6px;border-radius:5px}
-.layer-bar{flex:1;height:13px;border-radius:7px;background:#0a121d;overflow:hidden;border:1px solid var(--line-soft)}
-.layer-fill{height:100%;border-radius:7px;transition:width 1s}
-.layer-v{width:54px;text-align:right;font-family:'JetBrains Mono';font-size:13px;font-weight:700}
-@media(max-width:880px){.portbanner{flex-direction:column;align-items:stretch;gap:16px}.pb-divider{width:auto;height:1px}.pb-bal{font-size:34px}
-  .btp-grid{grid-template-columns:repeat(2,1fr)}
-  .tfstack{flex-wrap:wrap}.layer-nm{width:120px}}
-.eqret{font-family:'JetBrains Mono';font-size:26px;font-weight:700;margin:8px 0 2px}
-.eqsub{font-size:12px;color:var(--ink2);margin-bottom:14px}
-.chartbox{position:relative;width:100%}
-.legend{display:flex;gap:16px;font-size:11px;color:var(--ink2);margin-top:12px;font-weight:500}
-.legend i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
-.statline{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-soft);
-  border:1px solid var(--line-soft);border-radius:11px;overflow:hidden;margin-top:16px}
-.statline div{background:var(--panel);padding:10px 12px}
-.statline .k{font-size:9.5px;letter-spacing:1.1px;text-transform:uppercase;color:var(--ink3);font-weight:600}
-.statline .v{font-size:15px;font-weight:700;margin-top:3px}
-
-/* ===== learning ===== */
-.learngrid{display:grid;grid-template-columns:1.15fr 1fr;gap:18px}
-.lpanel{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
-  border-radius:var(--r);padding:22px;box-shadow:var(--shadow)}
-.lpanel h3{font-family:'Sora';font-size:13px;letter-spacing:.8px;font-weight:700;margin-bottom:5px;display:flex;align-items:center;gap:9px}
-.lpanel .desc{font-size:12px;color:var(--ink3);margin-bottom:18px;line-height:1.55}
-.wrow{display:flex;align-items:center;gap:13px;margin-bottom:14px}
-.wrow .nm{width:104px;font-size:12.5px;font-weight:600;color:var(--ink)}
-.wrow .bar{flex:1;height:13px;border-radius:7px;background:#0a121d;overflow:hidden;border:1px solid var(--line-soft);position:relative}
-.wrow .bf{height:100%;border-radius:7px;background:linear-gradient(90deg,var(--teal-d),var(--teal));transition:width 1s}
-.wrow .pc{width:48px;text-align:right;font-family:'JetBrains Mono';font-size:13px;font-weight:700}
-.edgebox{display:flex;align-items:center;gap:16px;padding:16px;border-radius:13px;
-  background:linear-gradient(135deg,rgba(52,226,160,.10),rgba(42,214,197,.04));
-  border:1px solid rgba(52,226,160,.22);margin-bottom:18px}
-.edgebox.lose{background:linear-gradient(135deg,rgba(255,92,114,.10),rgba(255,92,114,.03));border-color:rgba(255,92,114,.22)}
+/* learning */
+.lgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.lpanel{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:var(--r);padding:22px;box-shadow:var(--shadow)}
+.lpanel h3{font-family:'Sora';font-size:13px;letter-spacing:.6px;font-weight:700;margin-bottom:5px;display:flex;align-items:center;gap:9px}
+.lpanel .desc{font-size:12px;color:var(--ink3);margin-bottom:16px;line-height:1.55}
+.edgebox{display:flex;align-items:center;gap:16px;padding:16px;border-radius:13px;background:linear-gradient(135deg,rgba(52,226,160,.10),rgba(42,214,197,.04));border:1px solid rgba(52,226,160,.22);margin-bottom:16px}
+.edgebox.lose{background:linear-gradient(135deg,rgba(255,181,71,.10),rgba(255,181,71,.03));border-color:rgba(255,181,71,.22)}
 .edgebox .ico{font-size:26px}
-.edgebox .vt{font-family:'Sora';font-weight:800;font-size:17px}
+.edgebox .vt{font-family:'Sora';font-weight:800;font-size:16px}
 .edgebox .vs{font-size:12px;color:var(--ink2)}
 .kv{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line-soft);font-size:13px}
 .kv:last-child{border-bottom:0}
 .kv .k{color:var(--ink2)} .kv .v{font-weight:600;font-family:'JetBrains Mono'}
-.shadowitem{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;border-radius:10px;
-  background:var(--panel);border:1px solid var(--line);margin-bottom:9px}
-.shadowitem .nm{font-size:13px;font-weight:600}
-.shadowitem .st{font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:3px 9px;border-radius:6px;font-weight:700}
-.st.testing{background:rgba(91,169,255,.15);color:var(--blue)}
-.st.graduated{background:rgba(52,226,160,.15);color:var(--grn)}
-.st.rejected{background:rgba(255,92,114,.15);color:var(--red)}
-.regbars{display:flex;flex-direction:column;gap:10px}
-.regrow{display:flex;align-items:center;gap:12px}
-.regrow .rn{width:96px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:7px}
-.regrow .rd{width:9px;height:9px;border-radius:3px}
-.regrow .rbar{flex:1;height:10px;border-radius:6px;background:#0a121d;overflow:hidden;border:1px solid var(--line-soft)}
-.regrow .rf{height:100%}
-.regrow .rp{width:42px;text-align:right;font-family:'JetBrains Mono';font-size:12px;font-weight:600;color:var(--ink2)}
 
-/* ===== trades ===== */
-.tradewrap{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
-  border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
+.tradewrap{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
 .tabs{display:flex;gap:4px;padding:14px 16px 0}
-.tab{font-size:12px;font-weight:600;padding:8px 16px;border-radius:9px 9px 0 0;cursor:pointer;color:var(--ink3);
-  border:1px solid transparent;border-bottom:0}
+.tab{font-size:12px;font-weight:600;padding:8px 16px;border-radius:9px 9px 0 0;cursor:pointer;color:var(--ink3);border:1px solid transparent;border-bottom:0}
 .tab.on{color:var(--ink);background:var(--panel);border-color:var(--line)}
 .tablescroll{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:13px;min-width:680px}
-thead th{text-align:left;padding:13px 16px;font-size:10px;letter-spacing:1.3px;text-transform:uppercase;
-  color:var(--ink3);font-weight:600;border-bottom:1px solid var(--line);background:var(--bg2);position:sticky;top:0}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:640px}
+thead th{text-align:left;padding:13px 16px;font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink3);font-weight:600;border-bottom:1px solid var(--line);background:var(--bg2)}
 tbody td{padding:12px 16px;border-bottom:1px solid var(--line-soft)}
 tbody tr:hover{background:rgba(255,255,255,.018)}
-.dirtag{font-size:10.5px;font-weight:700;letter-spacing:.8px;padding:3px 9px;border-radius:6px}
+.dirtag{font-size:10.5px;font-weight:700;letter-spacing:.7px;padding:3px 9px;border-radius:6px}
 .dirtag.long{color:#04150d;background:rgba(52,226,160,.9)}
 .dirtag.short{color:#1c0207;background:rgba(255,92,114,.9)}
 .pos{color:var(--grn)} .neg{color:var(--red)}
 .win{color:var(--grn);font-weight:700} .loss{color:var(--red);font-weight:700}
 .regtag{font-size:10px;color:var(--ink2);background:var(--panel);border:1px solid var(--line);padding:2px 8px;border-radius:6px}
-.strat{font-size:10.5px;color:var(--ink3);font-family:'JetBrains Mono'}
 
-footer{margin-top:46px;text-align:center;color:var(--ink3);font-size:11.5px;line-height:1.8}
+/* learn view */
+.learn{max-width:880px;margin:24px auto 0}
+.learn-hero{background:linear-gradient(135deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:var(--r);padding:28px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.learn-hero::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,transparent,var(--teal),var(--blue),transparent)}
+.learn-hero h2{font-family:'Sora';font-size:24px;font-weight:800;letter-spacing:.3px;margin-bottom:10px}
+.learn-hero p{font-size:14.5px;color:var(--ink2);line-height:1.7}
+.learn-hero .tldr{margin-top:16px;font-size:13.5px;color:var(--ink);background:rgba(42,214,197,.07);border:1px solid rgba(42,214,197,.2);border-radius:12px;padding:14px 16px;line-height:1.6}
+.lblock{margin-top:22px;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:var(--r);padding:24px;box-shadow:var(--shadow)}
+.lblock h3{font-family:'Sora';font-size:17px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:11px}
+.lblock h3 .n{width:30px;height:30px;flex:none;border-radius:9px;background:rgba(42,214,197,.12);border:1px solid rgba(42,214,197,.3);color:var(--teal);display:grid;place-items:center;font-size:14px;font-weight:800}
+.lblock p{font-size:14px;color:var(--ink2);line-height:1.75;margin-top:8px}
+.lblock p b{color:var(--ink)}
+.lblock .why{margin-top:12px;font-size:13px;color:var(--ink2);background:var(--bg2);border-left:3px solid var(--teal);border-radius:0 10px 10px 0;padding:11px 15px;line-height:1.65}
+.lblock .why b{color:var(--teal)}
+.steps{display:flex;flex-direction:column;gap:14px;margin-top:6px}
+.step{display:flex;gap:14px;align-items:flex-start;padding:15px;border-radius:13px;background:var(--panel);border:1px solid var(--line)}
+.step .si{width:34px;height:34px;flex:none;border-radius:10px;display:grid;place-items:center;font-size:17px}
+.step .st-b{font-family:'Sora';font-weight:700;font-size:14.5px}
+.step .st-d{font-size:13px;color:var(--ink2);line-height:1.6;margin-top:3px}
+.step .st-d b{color:var(--ink)}
+.glossary{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.gl{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:13px 15px}
+.gl .gt{font-weight:700;font-size:13px;color:var(--teal)}
+.gl .gd{font-size:12.5px;color:var(--ink2);margin-top:4px;line-height:1.55}
+.limits{font-size:13.5px;color:var(--ink2);line-height:1.8}
+.limits li{margin:7px 0}
+.limits b{color:var(--ink)}
+
+footer{margin-top:44px;text-align:center;color:var(--ink3);font-size:11.5px;line-height:1.8}
 footer .em{color:var(--ink2)}
-.updated{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;color:var(--ink2);
-  padding:6px 13px;border-radius:999px;border:1px solid var(--line);background:var(--panel);margin-top:8px}
+.updated{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;color:var(--ink2);padding:6px 13px;border-radius:999px;border:1px solid var(--line);background:var(--panel);margin-top:8px}
+.hidden{display:none}
+.loading{padding:80px 0;text-align:center;color:var(--ink3);font-size:14px}
 
 @media(max-width:880px){
   .statusgrid{grid-template-columns:repeat(2,1fr)}
-  .cards{grid-template-columns:1fr}
-  .perfgrid{grid-template-columns:1fr}
-  .learngrid{grid-template-columns:1fr}
-  .topbar{flex-wrap:wrap;gap:10px}
-  .brand h1{font-size:19px}
-  .wrap{padding:0 14px}
+  .cards,.perfgrid,.lgrid,.cmp2,.glossary{grid-template-columns:1fr}
+  .portbanner{flex-direction:column;align-items:stretch;gap:16px}.pb-divider{width:auto;height:1px}.pb-bal{font-size:34px}
+  .btp-grid{grid-template-columns:repeat(2,1fr)}
+  .topbar{gap:10px}.brand h1{font-size:19px}.wrap{padding:0 14px}
 }
-.loading{padding:80px 0;text-align:center;color:var(--ink3);font-size:14px}
 </style>
 </head>
 <body>
@@ -266,50 +231,53 @@ footer .em{color:var(--ink2)}
   <div class="topbar">
     <div class="brand">
       <svg class="logo" viewBox="0 0 48 48" fill="none">
-        <defs>
-          <linearGradient id="lg" x1="0" y1="0" x2="48" y2="48">
-            <stop stop-color="#2ad6c5"/><stop offset="1" stop-color="#5aa9ff"/>
-          </linearGradient>
-        </defs>
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="48" y2="48"><stop stop-color="#2ad6c5"/><stop offset="1" stop-color="#5aa9ff"/></linearGradient></defs>
         <rect x="2" y="2" width="44" height="44" rx="13" fill="#0b131f" stroke="url(#lg)" stroke-width="1.5"/>
         <path d="M6 30 Q12 18 18 26 T30 24 T42 18" stroke="url(#lg)" stroke-width="2.6" fill="none" stroke-linecap="round"/>
         <path d="M6 36 Q13 27 19 33 T31 31 T42 27" stroke="#2ad6c5" stroke-width="2" fill="none" stroke-linecap="round" opacity=".45"/>
       </svg>
-      <div>
-        <h1>RIPTIDE</h1>
-        <div class="sub">Adaptive BTC · ETH Engine</div>
-      </div>
+      <div><h1>RIPTIDE</h1><div class="sub">Systematic BTC · ETH Trend Engine</div></div>
     </div>
     <div class="spacer"></div>
+    <div class="tabs-nav">
+      <button class="tabbtn on" id="tab-dash" onclick="showView('dash')">Dashboard</button>
+      <button class="tabbtn" id="tab-learn" onclick="showView('learn')">How it works</button>
+    </div>
     <div class="livepill"><span id="livedot" class="dot"></span><span id="livetxt">LIVE</span></div>
   </div>
 </header>
 
 <div class="wrap">
-  <div id="app"><div class="loading">Loading engine state…</div></div>
+  <div id="view-dash"><div class="loading">Loading engine state…</div></div>
+  <div id="view-learn" class="hidden"></div>
 
   <footer>
-    <div>RIPTIDE · always-in long/short trend engine on BTC &amp; ETH · paper-traded notional <span class="em">$10,000</span> per asset</div>
-    <div>Multi-timeframe: <span class="em">1D bias · 4h decision · 1h timing</span> · deterministic core · self-recalibrating · zero LLM in the loop · the flip is the exit (no stops)</div>
+    <div>RIPTIDE · systematic long/short trend engine on BTC &amp; ETH · paper-traded notional <span class="em">$10,000</span> per asset</div>
+    <div>Daily trend gate · 4h Donchian breakout · ATR trailing-stop exit · volatility-sized · self-recalibrating · zero LLM in the loop</div>
     <div id="upd" class="updated"></div>
     <div style="margin-top:10px;font-size:10.5px">Educational simulation. Not financial advice. Past simulated performance does not guarantee future results.</div>
   </footer>
 </div>
 
 <script>
-const $ = (s,r=document)=>r.querySelector(s);
+const $=(s,r=document)=>r.querySelector(s);
 const fmtUSD=(n,d=2)=>'$'+Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
 const fmtPx=(n)=> n>=1000? fmtUSD(n,0): fmtUSD(n,2);
 const sign=(n,d=1,suf='%')=>(n>=0?'+':'')+Number(n).toFixed(d)+suf;
 const cls=(n)=> n>=0?'pos':'neg';
-const REGCOLOR={trend_up:'#34e2a0',trend_down:'#ff5c72',chop:'#ffb547',high_vol:'#9b8cff'};
-const REGLABEL={trend_up:'Trend Up',trend_down:'Trend Down',chop:'Chop',high_vol:'High Vol'};
+let STATE=null;
 
-// ---- dependency-free SVG line chart (equity vs hodl) ----
-function sparkChart(strat, hodl, w, h){
+function showView(v){
+  $('#view-dash').classList.toggle('hidden', v!=='dash');
+  $('#view-learn').classList.toggle('hidden', v!=='learn');
+  $('#tab-dash').classList.toggle('on', v==='dash');
+  $('#tab-learn').classList.toggle('on', v==='learn');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function sparkChart(strat,hodl,w,h){
   const pad={t:8,r:6,b:18,l:6};
-  const all=strat.concat(hodl);
-  const ts=all.map(p=>p[0]); const vs=all.map(p=>p[1]);
+  const all=strat.concat(hodl); const ts=all.map(p=>p[0]); const vs=all.map(p=>p[1]);
   const minT=Math.min(...ts),maxT=Math.max(...ts);
   let minV=Math.min(...vs),maxV=Math.max(...vs);
   const span=(maxV-minV)||1; minV-=span*0.08; maxV+=span*0.08;
@@ -317,21 +285,11 @@ function sparkChart(strat, hodl, w, h){
   const Y=v=>pad.t+(1-(v-minV)/(maxV-minV))*(h-pad.t-pad.b);
   const path=arr=>arr.map((p,i)=>(i?'L':'M')+X(p[0]).toFixed(1)+' '+Y(p[1]).toFixed(1)).join(' ');
   const area=arr=>path(arr)+` L ${X(arr[arr.length-1][0]).toFixed(1)} ${(h-pad.b).toFixed(1)} L ${X(arr[0][0]).toFixed(1)} ${(h-pad.b).toFixed(1)} Z`;
-  const base=Y(10000);
-  const last=strat[strat.length-1][1];
-  const up=last>=10000;
-  const col=up?'#34e2a0':'#ff5c72';
-  const gid='g'+Math.random().toString(36).slice(2,8);
-  // gridlines
-  let grid='';
-  for(let i=0;i<=3;i++){const yy=pad.t+i/3*(h-pad.t-pad.b);grid+=`<line x1="${pad.l}" y1="${yy}" x2="${w-pad.r}" y2="${yy}" stroke="#16202e" stroke-width="1"/>`;}
+  const base=Y(10000); const last=strat[strat.length-1][1]; const up=last>=10000;
+  const col=up?'#34e2a0':'#ff5c72'; const gid='g'+Math.random().toString(36).slice(2,8);
+  let grid=''; for(let i=0;i<=3;i++){const yy=pad.t+i/3*(h-pad.t-pad.b);grid+=`<line x1="${pad.l}" y1="${yy}" x2="${w-pad.r}" y2="${yy}" stroke="#16202e" stroke-width="1"/>`;}
   return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" preserveAspectRatio="none" style="display:block">
-    <defs>
-      <linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="${col}" stop-opacity=".28"/>
-        <stop offset="1" stop-color="${col}" stop-opacity="0"/>
-      </linearGradient>
-    </defs>
+    <defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".28"/><stop offset="1" stop-color="${col}" stop-opacity="0"/></linearGradient></defs>
     ${grid}
     <line x1="${pad.l}" y1="${base.toFixed(1)}" x2="${w-pad.r}" y2="${base.toFixed(1)}" stroke="#3a4658" stroke-width="1" stroke-dasharray="3 4"/>
     <path d="${area(strat)}" fill="url(#${gid})"/>
@@ -348,21 +306,66 @@ function statusStrip(st){
     ['Next Cycle', `${st.next_run} <small>SGT</small>`],
     ['Cycle #', `${st.cycle.toLocaleString()}`],
     ['Paper Live Since', `${st.live_since||st.first_run}`],
-    ['Last Recalib', `${st.last_recalib}`],
+    ['Last Retune', `${st.last_recalib}`],
   ];
-  return `<div class="statusgrid">${cells.map(c=>`<div class="statcell"><div class="k">${c[0]}</div><div class="v">${c[1]}</div></div>`).join('')}</div>`;
+  return `<div class="statusgrid">${cells.map(c=>`<div class="statcell"><div class="k">${c[0]}</div><div class="v">${c[1]}</div></div>`).join('')}</div>
+    <div class="enginebar">Engine: <b>${st.engine||''}</b></div>`;
+}
+
+function biasChip(b){
+  return `<span class="chip bias-${b}">Daily trend <b>${b}</b></span>`;
+}
+
+function stanceCard(sym,a){
+  const dir=a.stance.toLowerCase();
+  const inPos = a.stance!=='FLAT';
+  const ur=a.unrealized_pct;
+  let body;
+  if(inPos){
+    body=`
+    <div class="unreal">
+      <div><div class="big ${cls(ur)}">${sign(ur)}</div></div>
+      <div class="rr">unrealized · <b class="mono">${sign(a.unrealized_r,2,'R')}</b> · size <b class="mono">${(a.size*100).toFixed(0)}%</b></div>
+    </div>
+    <div class="posrow">
+      <div><div class="k">Entry</div><div class="vv mono">${fmtPx(a.entry)}</div></div>
+      <div><div class="k">Trailing Stop</div><div class="vv mono" style="color:var(--amber)">${a.trail?fmtPx(a.trail):'—'}</div></div>
+      <div><div class="k">Held</div><div class="vv mono">${a.since_bars} bars</div></div>
+    </div>`;
+  } else {
+    body=`
+    <div class="flatbox">
+      <div class="ttl">💤 In cash — waiting for a breakout</div>
+      <div class="sub">No position. The engine only enters when price breaks the recent range <b>in the daily trend's direction</b>. Trigger levels below.</div>
+    </div>
+    <div class="posrow">
+      <div><div class="k">Break above → long</div><div class="vv mono" style="color:var(--grn)">${fmtPx(a.donchian_hi)}</div></div>
+      <div><div class="k">Break below → short</div><div class="vv mono" style="color:var(--red)">${fmtPx(a.donchian_lo)}</div></div>
+      <div><div class="k">Now</div><div class="vv mono">${fmtPx(a.price)}</div></div>
+    </div>`;
+  }
+  const arrow = a.stance==='LONG'?'▲':a.stance==='SHORT'?'▼':'■';
+  return `<div class="card ${dir}">
+    <div class="glowblob"></div>
+    <div class="cardtop">
+      <div class="assetname">
+        <div class="coin ${sym.toLowerCase()}">${sym==='BTC'?'₿':'Ξ'}</div>
+        <div><div class="nm">${sym}</div><div class="px mono">${fmtPx(a.price)}</div></div>
+      </div>
+      <div class="stancetag ${dir}"><span class="arr">${arrow}</span>${a.stance}</div>
+    </div>
+    <div class="cardmeta">
+      ${biasChip(a.tf.daily_bias)}
+      ${inPos?`<span class="chip">Since <b>${a.since}</b></span>`:''}
+    </div>
+    ${body}
+  </div>`;
 }
 
 function balOf(a){const ec=a.perf&&a.perf.equity_curve; return ec?ec[ec.length-1][1]:10000;}
-function curveStart(s){
-  const ec=s.assets.BTC.perf.equity_curve;
-  try{return new Date(ec[0][0]).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});}catch(e){return '';}
-}
 function portfolioBanner(s){
   const bal=balOf(s.assets.BTC)+balOf(s.assets.ETH);
-  const dep=20000, pnl=bal-dep, ret=pnl/dep*100;
-  const hodl=s.combined.hodl_pct;
-  const beat=ret-hodl;
+  const dep=20000, pnl=bal-dep, ret=pnl/dep*100; const hodl=s.combined.hodl_pct; const beat=ret-hodl;
   return `<div class="portbanner">
     <div class="pb-main">
       <div class="pb-k">Total Paper Portfolio</div>
@@ -378,119 +381,21 @@ function portfolioBanner(s){
   </div>`;
 }
 
-function layerAttr(L){
-  const rows=[
-    ['4h decision only', L.base, '#5aa9ff'],
-    ['+ 1D bias filter', L.plus_1d, '#9b8cff'],
-    ['+ 1h timing (live)', L.full, '#2ad6c5'],
-  ];
-  const mx=Math.max(1,...rows.map(r=>Math.abs(r[1])));
-  const best=rows.reduce((a,b)=>b[1]>a[1]?b:a);
-  return `<div class="layerbox">
-    <div class="layer-k">Timeframe contribution <span class="btp-badge">edge each layer adds, on history</span></div>
-    <div class="layer-sub">Each row turns one layer on and re-runs the same backtest. This is the honest test of whether 1D &amp; 1h earn their place — the longest bar wins.</div>
-    ${rows.map(r=>{
-      const w=Math.abs(r[1])/mx*100;
-      const isBest=r[0]===best[0];
-      return `<div class="layer-row">
-        <div class="layer-nm">${r[0]}${isBest?' <span class="layer-win">best</span>':''}</div>
-        <div class="layer-bar"><div class="layer-fill" style="width:${w.toFixed(0)}%;background:${r[2]}"></div></div>
-        <div class="layer-v ${cls(r[1])}">${sign(r[1])}</div>
-      </div>`;
-    }).join('')}
-  </div>`;
-}
-
-function backtestPanel(b){
-  if(!b) return '';
-  const beat=b.beating;
-  return `<div class="btpanel">
-    <div class="btp-head">
-      <div><div class="btp-k">Backtest Validation <span class="btp-badge">reference only</span></div>
-      <div class="btp-sub">How the engine performed replaying <b>${b.n_trades}</b> trades across history since <b>${b.start_date}</b> — used to validate the logic, <b>not</b> counted in the live paper account.</div></div>
-    </div>
-    <div class="btp-grid">
-      <div><div class="k">Riptide</div><div class="v ${cls(b.return_pct)}">${sign(b.return_pct)}</div></div>
-      <div><div class="k">Buy &amp; Hold</div><div class="v ${cls(b.hodl_pct)}">${sign(b.hodl_pct)}</div></div>
-      <div><div class="k">Edge vs HODL</div><div class="v ${cls(b.edge)}">${sign(b.edge)}</div></div>
-      <div><div class="k">Win Rate</div><div class="v">${b.winrate.toFixed(1)}%</div></div>
-      <div><div class="k">Verdict</div><div class="v" style="font-size:13px;color:${beat?'var(--grn)':'var(--red)'}">${beat?'Beat hold':'Underperformed'}</div></div>
-    </div>
-    ${b.layers?layerAttr(b.layers):''}
-  </div>`;
-}
-
-function stanceCard(sym,a){
-  const long=a.stance==='LONG';
-  const dir=long?'long':'short';
-  const reg=REGLABEL[a.regime]||a.regime;
-  const conf=Math.round(a.confidence*100);
-  const ur=a.unrealized_pct;
-  return `<div class="card ${dir}">
-    <div class="glowblob"></div>
-    <div class="cardtop">
-      <div class="assetname">
-        <div class="coin ${sym.toLowerCase()}">${sym==='BTC'?'₿':'Ξ'}</div>
-        <div><div class="nm">${sym}</div><div class="px mono">${fmtPx(a.price)}</div></div>
-      </div>
-      <div class="stancetag ${dir}"><span class="arr">${long?'▲':'▼'}</span>${a.stance}</div>
-    </div>
-    <div class="cardmeta">
-      <span class="chip">Regime <b>${reg}</b></span>
-      <span class="chip">Held <b>${a.since_bars} bars</b></span>
-      <span class="chip">Since <b>${a.since}</b></span>
-    </div>
-    <div class="confbar">
-      <div class="lab"><span>Signal Confidence</span><span class="mono">${conf}%</span></div>
-      <div class="track"><div class="fill" style="width:${conf}%"></div></div>
-    </div>
-    <div class="unreal">
-      <div><div class="big ${cls(ur)}">${sign(ur)}</div></div>
-      <div class="rr">unrealized · <b class="mono">${sign(a.unrealized_r,2,'R')}</b> from entry</div>
-    </div>
-    <div class="posrow">
-      <div><div class="k">Entry</div><div class="vv mono">${fmtPx(a.entry)}</div></div>
-      <div><div class="k">Target</div><div class="vv mono" style="color:var(--grn)">${fmtPx(a.target)}</div></div>
-      <div><div class="k">Flip / Invalid.</div><div class="vv mono" style="color:var(--red)">${fmtPx(a.invalidation)}</div></div>
-    </div>
-    ${a.tf?tfStack(a.tf):''}
-  </div>`;
-}
-
-function tfStack(tf){
-  const biasC = tf.daily_bias==='up'?'var(--grn)':tf.daily_bias==='down'?'var(--red)':'var(--ink2)';
-  const biasArrow = tf.daily_bias==='up'?'▲':tf.daily_bias==='down'?'▼':'■';
-  const fourC = tf.fourh==='LONG'?'var(--grn)':'var(--red)';
-  const okC = tf.hour_confirm?'var(--grn)':'var(--amber)';
-  return `<div class="tfstack">
-    <div class="tf-cell"><div class="tf-lab">1D bias</div><div class="tf-val" style="color:${biasC}">${biasArrow} ${tf.daily_bias}</div></div>
-    <div class="tf-arrow">→</div>
-    <div class="tf-cell"><div class="tf-lab">4h decision</div><div class="tf-val" style="color:${fourC}">${tf.fourh}</div></div>
-    <div class="tf-arrow">→</div>
-    <div class="tf-cell"><div class="tf-lab">1h timing</div><div class="tf-val" style="color:${okC}">${tf.hour_confirm?'confirmed':'waiting'}</div></div>
-  </div>`;
-}
-
 function eqCard(title,pin,a,isCombo,deployed,balance){
-  const p=a.perf||a;
-  const ret=p.return_pct, hodl=p.hodl_pct;
-  const beat=ret-hodl;
+  const p=a.perf||a; const ret=p.return_pct, hodl=p.hodl_pct; const pnl=balance-deployed;
   let chart='';
   if(p.equity_curve && p.equity_curve.length>=2){
     chart=`<div class="chartbox">${sparkChart(p.equity_curve,p.hodl_curve,440,120)}</div>
     <div class="legend"><span><i style="background:${ret>=0?'#34e2a0':'#ff5c72'}"></i>Riptide</span><span><i style="background:#5a6b82"></i>Buy &amp; Hold</span></div>`;
   } else {
-    chart=`<div class="freshchart"><div class="flatline"></div><span>📡 Live since today — equity curve builds as trades close</span></div>`;
+    chart=`<div class="freshchart"><div class="flatline"></div><span>📡 Live since today — the equity line builds as trades close</span></div>`;
   }
-  const pnl=balance-deployed;
   const line= isCombo
     ? [['Win Rate',p.winrate.toFixed(1)+'%'],['Trades',p.n_trades],['Max DD',sign(p.max_dd,1)]]
-    : [['Win Rate',p.winrate.toFixed(1)+'%'],['Profit Factor',p.profit_factor.toFixed(2)],['Sharpe',p.sharpe.toFixed(2)]];
+    : [['Win Rate',p.winrate.toFixed(1)+'%'],['Profit Factor',(p.profit_factor||0).toFixed(2)],['Sharpe',(p.sharpe||0).toFixed(2)]];
   return `<div class="eqcard">
-    <div class="eqhead">
-      <div class="t"><span class="pin" style="background:${pin}"></span>${title}</div>
-      <div class="baltag"><span class="k">Paper balance</span><span class="v mono ${cls(pnl)}">${fmtUSD(balance,0)}</span></div>
-    </div>
+    <div class="eqhead"><div class="t"><span class="pin" style="background:${pin}"></span>${title}</div>
+      <div class="baltag"><span class="k">Paper balance</span><span class="v mono ${cls(pnl)}">${fmtUSD(balance,0)}</span></div></div>
     <div class="eqret ${cls(ret)}">${sign(ret)}</div>
     <div class="eqsub">${fmtUSD(deployed,0)} deployed → <b class="${cls(pnl)}">${(pnl>=0?'+':'−')+fmtUSD(Math.abs(pnl),0)}</b> P&amp;L · vs Buy&amp;Hold <b class="${cls(hodl)}">${sign(hodl)}</b></div>
     ${chart}
@@ -498,79 +403,73 @@ function eqCard(title,pin,a,isCombo,deployed,balance){
   </div>`;
 }
 
-function learningPanels(L){
-  const W=L.weights;
-  const order=Object.keys(W).sort((a,b)=>W[b]-W[a]);
-  const NAMES={ema_trend:'EMA Trend',donchian:'Donchian',macd:'MACD',momentum:'Momentum'};
-  const maxW=Math.max(...Object.values(W));
-  const wbars=order.map(k=>`<div class="wrow">
-    <div class="nm">${NAMES[k]||k}</div>
-    <div class="bar"><div class="bf" style="width:${(W[k]/maxW*100).toFixed(0)}%"></div></div>
-    <div class="pc">${(W[k]*100).toFixed(1)}%</div>
-  </div>`).join('');
-
-  const e=L.edge;
-  const beat=e.beating_hodl;
-  const edgebox=`<div class="edgebox ${beat?'':'lose'}">
-    <div class="ico">${beat?'🎯':'⚠️'}</div>
-    <div><div class="vt" style="color:${beat?'var(--grn)':'var(--red)'}">${e.verdict.toUpperCase()}</div>
-    <div class="vs">Statistical edge vs buy&amp;hold · z-score <b class="mono">${e.z.toFixed(2)}</b></div></div>
-  </div>`;
-
-  const P=L.params;
-  const pc=L.param_changes||[];
-  const lastChange=pc.length?pc[pc.length-1]:null;
-  const paramKV=[
-    ['Fast / Slow EMA',`${P.ema_fast} / ${P.ema_slow}`],
-    ['Macro filter EMA',`${P.ema_macro}`],
-    ['ADX length',`${P.adx_len}`],
-    ['Donchian / ROC',`${P.don} / ${P.roc}`],
-    ['Recalibrations',`${L.recalibrations}×`],
-  ].map(k=>`<div class="kv"><span class="k">${k[0]}</span><span class="v">${k[1]}</span></div>`).join('');
-
-  const reg=L.regime_dist;
-  const regTot=Object.values(reg).reduce((a,b)=>a+b,0)||1;
-  const regbars=Object.entries(reg).sort((a,b)=>b[1]-a[1]).map(([k,v])=>{
-    const pct=(v/regTot*100);
-    return `<div class="regrow">
-      <div class="rn"><span class="rd" style="background:${REGCOLOR[k]||'#888'}"></span>${REGLABEL[k]||k}</div>
-      <div class="rbar"><div class="rf" style="width:${pct.toFixed(0)}%;background:${REGCOLOR[k]||'#888'}"></div></div>
-      <div class="rp">${pct.toFixed(0)}%</div>
+function backtestPanel(s){
+  const b=s.backtest; if(!b) return '';
+  const cells=[['Riptide',sign(b.return_pct),cls(b.return_pct)],['Buy & Hold',sign(b.hodl_pct),cls(b.hodl_pct)],
+    ['Edge',sign(b.edge),cls(b.edge)],['Sharpe',(b.sharpe||0).toFixed(2),''],['Profit Factor',(b.profit_factor||0).toFixed(2),''],
+    ['Max DD',sign(b.max_dd,1),'neg']];
+  const yrs=b.by_year||[];
+  const mx=Math.max(1,...yrs.map(y=>Math.abs(y.ret)));
+  const years=yrs.map(y=>{
+    const w=Math.abs(y.ret)/mx*100; const c=y.ret>=0?'#34e2a0':'#ff5c72';
+    return `<div class="yearrow">
+      <div class="year-nm">${y.year}</div>
+      <div class="year-track"><div class="year-fill" style="width:${w.toFixed(0)}%;background:${c}"></div></div>
+      <div class="year-v ${cls(y.ret)}">${sign(y.ret)}</div>
     </div>`;
   }).join('');
+  const A=s.assets.BTC.backtest, E=s.assets.ETH.backtest;
+  const cmp=(sym,x,col)=>`<div class="cmpcard"><div class="cn"><span style="width:9px;height:9px;border-radius:3px;background:${col};display:inline-block"></span>${sym}</div>
+    <div class="ln"><span>Riptide</span><b class="${cls(x.return_pct)}">${sign(x.return_pct)}</b></div>
+    <div class="ln"><span>Buy &amp; Hold</span><b class="${cls(x.hodl_pct)}">${sign(x.hodl_pct)}</b></div>
+    <div class="ln"><span>Max drawdown</span><b class="neg">${sign(x.max_dd,1)}</b></div>
+    <div class="ln"><span>In market</span><b>${x.exposure}%</b></div></div>`;
+  return `<div class="btpanel">
+    <div class="btp-head"><div class="btp-k">3-Year Backtest <span class="btp-badge">validation · not the live account</span></div>
+      <div class="btp-sub">The exact same rules replayed across <b>${b.n_trades}</b> trades since <b>${b.start_date}</b> — through bull, bear and chop. This is how the logic was validated; it does <b>not</b> feed the live paper balance above.</div></div>
+    <div class="btp-grid">${cells.map(c=>`<div><div class="k">${c[0]}</div><div class="v ${c[2]}">${c[1]}</div></div>`).join('')}</div>
+    <div class="yearbox">
+      <div class="year-k">Return by year — does it survive every regime?</div>
+      <div class="year-sub">A robust trend system should make money in good years and protect capital in bad ones — not just fit one lucky period.</div>
+      ${years}
+    </div>
+    <div class="cmp2">${cmp('BTC',A,'#f08c00')}${cmp('ETH',E,'#5d6dff')}</div>
+    <div class="note">📌 <b>Honest read:</b> on <b>ETH</b> the engine far outperformed holding (it dodged the chop and caught the runs). On <b>BTC</b> it made less than simply holding — because BTC went almost straight up and a selective system only sits in the market ~${b.exposure}% of the time — but it did so with much smaller drawdowns. <b>Trend-following trades raw upside for smoother, lower-risk returns.</b></div>
+  </div>`;
+}
 
-  const shadow=(L.shadow||[]).map(s=>`<div class="shadowitem">
-    <div><div class="nm">${s.name}</div><div style="font-size:11px;color:var(--ink3);margin-top:2px">${s.trades} trades evaluated · edge <b class="${cls(s.edge)}">${sign(s.edge)}</b></div></div>
-    <div class="st ${s.status}">${s.status}</div>
-  </div>`).join('');
-
-  return `<div class="learngrid">
+function learningPanel(s){
+  const L=s.learning; const P=L.params; const e=L.edge; const beat=e.beating_hodl;
+  const edgebox=`<div class="edgebox ${beat?'':'lose'}"><div class="ico">${beat?'🎯':'⏳'}</div>
+    <div><div class="vt" style="color:${beat?'var(--grn)':'var(--amber)'}">${e.verdict.toUpperCase()}</div>
+    <div class="vs">Live edge vs buy&amp;hold · z-score <b class="mono">${e.z.toFixed(2)}</b> · needs ~12 closed trades to mean much</div></div></div>`;
+  const params=[
+    ['Breakout length','Donchian '+P.don_entry+' bars'],
+    ['Trailing stop','Chandelier '+P.trail_mult+'× ATR'],
+    ['Daily gate','EMA '+P.d_ema],
+    ['Volatility window',P.vol_len+' bars'],
+    ['Recalibrations',L.recalibrations+'×'],
+  ].map(k=>`<div class="kv"><span class="k">${k[0]}</span><span class="v">${k[1]}</span></div>`).join('');
+  const pc=L.param_changes||[]; const last=pc.length?pc[pc.length-1]:null;
+  return `<div class="lgrid">
     <div class="lpanel">
-      <h3>⚖️ Strategy Weights <span style="font-size:11px;color:var(--ink3);font-weight:400">live, outcome-reweighted</span></h3>
-      <div class="desc">Four sub-strategies vote each cycle. Weights are continuously re-derived from each strategy's <i>measured</i> performance (EWMA → softmax). Winners get louder; losers get quieter — automatically.</div>
-      ${wbars}
-      <h3 style="margin-top:24px">🧪 Shadow Strategies <span style="font-size:11px;color:var(--ink3);font-weight:400">on-trial, not yet trading</span></h3>
-      <div class="desc">Candidate variants run in the background on the same data. They only graduate into the live ensemble once they prove a positive out-of-sample edge.</div>
-      ${shadow||'<div style="color:var(--ink3);font-size:12px">No shadow candidates active.</div>'}
+      <h3>🎯 Live Verdict</h3>
+      <div class="desc">The honest scorecard for the live paper account — is it actually beating a passive holder yet?</div>
+      ${edgebox}
+      <div style="font-size:12px;color:var(--ink3);line-height:1.6">Your live account started fresh today, so this reads <b style="color:var(--ink2)">building track record</b> until enough trades close. The 3-year backtest above is the proof of concept; this is the live proof, earned over time.</div>
     </div>
     <div class="lpanel">
-      <h3>📈 Measured Edge</h3>
-      <div class="desc" style="margin-bottom:14px">The honest scorecard — is the engine actually beating a passive holder?</div>
-      ${edgebox}
-      <h3 style="margin-top:6px">🛠️ Tuned Parameters</h3>
-      <div class="desc">Walk-forward re-optimised on out-of-sample windows (weekly + on demand) to resist overfitting.</div>
-      ${paramKV}
-      ${lastChange?`<div style="font-size:11px;color:var(--ink3);margin-top:10px">Last tune: ${lastChange.field} → <b class="mono" style="color:var(--ink2)">${JSON.stringify(lastChange.to)}</b></div>`:''}
-      <h3 style="margin-top:22px">🌊 Regime Mix <span style="font-size:11px;color:var(--ink3);font-weight:400">history</span></h3>
-      <div class="desc">5-detector ensemble (ADX · EMA-alignment · volatility percentile · Hurst) classifies the tape so the engine sizes by conviction.</div>
-      <div class="regbars">${regbars}</div>
+      <h3>🛠️ Self-Tuning Parameters <span style="font-size:11px;color:var(--ink3);font-weight:400">walk-forward, weekly</span></h3>
+      <div class="desc">Every week the engine re-tests its handful of settings on data it didn't optimise on (out-of-sample) and keeps the better set. Few knobs by design — fewer ways to overfit the past.</div>
+      ${params}
+      ${last?`<div style="font-size:11px;color:var(--ink3);margin-top:10px">Last retune → <b class="mono" style="color:var(--ink2)">${JSON.stringify(last.to)}</b></div>`:''}
     </div>
   </div>`;
 }
 
 function tradeRows(trades,filter){
   const list=filter==='ALL'?trades:trades.filter(t=>t.asset===filter);
-  if(!list.length) return `<tr><td colspan="8" style="text-align:center;color:var(--ink3);padding:30px">No closed trades yet.</td></tr>`;
+  if(!list.length) return `<tr><td colspan="7" style="text-align:center;color:var(--ink3);padding:30px">No closed trades yet — the live account just started. Trades appear here as positions close.</td></tr>`;
   return list.map(t=>`<tr>
     <td class="mono" style="color:var(--ink2);white-space:nowrap">${t.exit_time}</td>
     <td><b>${t.asset}</b></td>
@@ -579,94 +478,146 @@ function tradeRows(trades,filter){
     <td class="mono">${fmtPx(t.exit)}</td>
     <td class="mono ${cls(t.pnl_pct)}">${sign(t.pnl_pct)}</td>
     <td class="mono ${t.win?'win':'loss'}">${sign(t.r,2,'R')}</td>
-    <td><span class="regtag">${REGLABEL[t.regime]||t.regime}</span></td>
   </tr>`).join('');
 }
 
-function render(s){
-  const st=s.status;
-  // live pill
-  $('#livedot').className='dot'+(st.live?'':' stale');
-  $('#livetxt').textContent=st.live?'LIVE':'STALE';
-
+function renderDash(s){
   const html=`
-  ${statusStrip(st)}
-
+  ${statusStrip(s.status)}
   <div class="sec">
-    <div class="sec-h"><h2>Current Positions</h2><span class="hint">always in the market — the flip is the exit</span><div class="rule"></div></div>
-    <div class="cards">
-      ${stanceCard('BTC',s.assets.BTC)}
-      ${stanceCard('ETH',s.assets.ETH)}
-    </div>
+    <div class="sec-h"><h2>Current Positions</h2><span class="hint">long, short, or in cash — only trades with the daily trend</span><div class="rule"></div></div>
+    <div class="cards">${stanceCard('BTC',s.assets.BTC)}${stanceCard('ETH',s.assets.ETH)}</div>
   </div>
-
   <div class="sec">
-    <div class="sec-h"><h2>Paper Portfolio</h2><span class="hint">$10,000 notional per asset · the flip is the exit</span><div class="rule"></div></div>
+    <div class="sec-h"><h2>Paper Portfolio</h2><span class="hint">$10,000 per asset · started today</span><div class="rule"></div></div>
     ${portfolioBanner(s)}
     <div class="perfgrid" style="margin-top:18px">
       ${eqCard('BTC','#f08c00',s.assets.BTC,false,10000,balOf(s.assets.BTC))}
       ${eqCard('ETH','#5d6dff',s.assets.ETH,false,10000,balOf(s.assets.ETH))}
       ${eqCard('Combined','#2ad6c5',s.combined,true,20000,balOf(s.assets.BTC)+balOf(s.assets.ETH))}
     </div>
-    <div class="bt-note">📡 <b>Live paper account started ${s.status.live_since}.</b> The portfolio above tracks only real, forward hourly decisions from that date — it begins at $20,000 and moves as live trades close. The engine still learns from all historical data (see below); that history is shown separately as a backtest and is <b>not</b> mixed into the live balance.</div>
-    ${backtestPanel(s.backtest)}
+    <div class="note">📡 <b>Live paper account started ${s.status.live_since}.</b> It begins at $20,000 and only moves on real forward trades. The engine learns from years of history (shown below as a backtest) but that history is <b>not</b> mixed into this live balance.</div>
   </div>
-
   <div class="sec">
-    <div class="sec-h"><h2>Self-Improvement</h2><span class="hint">act → measure → feedback · runs untouched</span><div class="rule"></div></div>
-    ${learningPanels(s.learning)}
+    <div class="sec-h"><h2>Track Record</h2><span class="hint">~3 years, bull + bear + chop</span><div class="rule"></div></div>
+    ${backtestPanel(s)}
   </div>
-
   <div class="sec">
-    <div class="sec-h"><h2>Trade Ledger</h2><span class="hint">most recent closed positions</span><div class="rule"></div></div>
+    <div class="sec-h"><h2>Self-Improvement</h2><span class="hint">measured edge · auto-retuned · runs untouched</span><div class="rule"></div></div>
+    ${learningPanel(s)}
+  </div>
+  <div class="sec">
+    <div class="sec-h"><h2>Trade Ledger</h2><span class="hint">live closed positions</span><div class="rule"></div></div>
     <div class="tradewrap">
       <div class="tabs" id="tradetabs">
-        <div class="tab on" data-f="ALL">All</div>
-        <div class="tab" data-f="BTC">BTC</div>
-        <div class="tab" data-f="ETH">ETH</div>
+        <div class="tab on" data-f="ALL">All</div><div class="tab" data-f="BTC">BTC</div><div class="tab" data-f="ETH">ETH</div>
       </div>
-      <div class="tablescroll">
-        <table>
-          <thead><tr><th>Closed</th><th>Asset</th><th>Side</th><th>Entry</th><th>Exit</th><th>P&amp;L</th><th>R</th><th>Regime</th></tr></thead>
-          <tbody id="tradebody">${tradeRows(s.trades,'ALL')}</tbody>
-        </table>
-      </div>
+      <div class="tablescroll"><table>
+        <thead><tr><th>Closed</th><th>Asset</th><th>Side</th><th>Entry</th><th>Exit</th><th>P&amp;L</th><th>R</th></tr></thead>
+        <tbody id="tradebody">${tradeRows(s.trades,'ALL')}</tbody>
+      </table></div>
     </div>
   </div>`;
-  $('#app').innerHTML=html;
-
-  // tab handlers
+  $('#view-dash').innerHTML=html;
   document.querySelectorAll('#tradetabs .tab').forEach(t=>{
-    t.onclick=()=>{
-      document.querySelectorAll('#tradetabs .tab').forEach(x=>x.classList.remove('on'));
-      t.classList.add('on');
-      $('#tradebody').innerHTML=tradeRows(s.trades,t.dataset.f);
-    };
+    t.onclick=()=>{document.querySelectorAll('#tradetabs .tab').forEach(x=>x.classList.remove('on'));t.classList.add('on');$('#tradebody').innerHTML=tradeRows(s.trades,t.dataset.f);};
   });
+}
 
-  // footer freshness
-  const ago=freshness(st.last_run_iso);
-  $('#upd').innerHTML=`<span class="dot" style="width:7px;height:7px;${st.live?'':'background:var(--red);box-shadow:none;animation:none'}"></span> State updated ${st.last_run} · ${ago}`;
+function renderLearn(s){
+  const P=s.learning.params; const b=s.backtest;
+  $('#view-learn').innerHTML=`<div class="learn">
+    <div class="learn-hero">
+      <h2>How Riptide works</h2>
+      <p>Riptide is a <b>rules-based robot</b> that trades the trend on Bitcoin and Ethereum — going <b>long</b> when they're rising, <b>short</b> when they're clearly falling, and sitting in <b>cash</b> when there's no clean trend. It never guesses or predicts. It just reacts to price with the same four rules every time, and tracks itself honestly on paper money.</p>
+      <div class="tldr">🌊 <b>The one-line version:</b> follow the big trend, jump in on a breakout, ride it with a trailing stop, bet bigger when calm and smaller when wild — and only ever fight with the trend, never against it.</div>
+    </div>
+
+    <div class="lblock">
+      <h3><span class="n">1</span> The daily trend decides which way it's allowed to bet</h3>
+      <p>Before anything, Riptide looks at the <b>daily chart</b>. If the daily trend is <b>up</b>, it's only allowed to look for <b>longs</b>. If the daily trend is clearly <b>down</b>, it can look for <b>shorts</b>. If there's no clear daily trend, it leans long or stays out.</p>
+      <div class="why"><b>Why:</b> the single biggest mistake traders make is fighting the bigger trend. Forcing every trade to agree with the daily direction was shown in testing to roughly <b>double the risk-adjusted return</b> versus ignoring it.</div>
+    </div>
+
+    <div class="lblock">
+      <h3><span class="n">2</span> It enters on a breakout, not a hunch</h3>
+      <p>Once the daily trend gives the green light, Riptide waits for price to <b>break out</b> of its recent range — above the highest high of the last ${P.don_entry} bars (to go long) or below the lowest low (to go short). A breakout is the market <b>proving</b> a move is underway.</p>
+      <div class="why"><b>Why:</b> this is the classic "Donchian breakout" used by the famous Turtle Traders. On crypto it works because trends run far — a breakout often extends 30-50% before reversing.</div>
+    </div>
+
+    <div class="lblock">
+      <h3><span class="n">3</span> It rides the winner with a trailing stop</h3>
+      <p>After entering, Riptide sets a <b>trailing stop</b> that follows the price up (for longs) at a distance of ${P.trail_mult}× the recent volatility (ATR). As long as the trend keeps going, it stays in. The moment price pulls back through the stop, it <b>exits to cash</b> — locking in the move and protecting against a reversal.</p>
+      <div class="why"><b>Why:</b> this is the most important rule. In testing, the trailing stop was the single biggest driver of returns — letting winners run while cutting losers fast is what makes trend-following profitable despite <b>winning less than half its trades</b>.</div>
+    </div>
+
+    <div class="lblock">
+      <h3><span class="n">4</span> It bets bigger when calm, smaller when wild</h3>
+      <p>Riptide sizes each trade based on how <b>volatile</b> the market is. Quiet, steady market → larger position. Violent, choppy market → smaller position. The goal is steady risk, not steady position size.</p>
+      <div class="why"><b>Why:</b> "volatility targeting" smooths the equity curve and lifts the Sharpe ratio — you're not accidentally betting huge right before a wild swing wipes you out.</div>
+    </div>
+
+    <div class="lblock">
+      <h3><span class="n">⚙︎</span> Why it sits in cash so often</h3>
+      <p>Riptide is only in the market about <b>${b.exposure}% of the time</b>. That's by design. There's no clean trend most of the time, so it waits. <b>Being flat is a position</b> — it's how the system avoids getting chopped up in sideways markets. When you see "in cash, waiting for a breakout," that's the system being patient, not broken.</p>
+    </div>
+
+    <div class="lblock">
+      <h3><span class="n">$</span> Paper money vs the backtest — what's real</h3>
+      <div class="steps">
+        <div class="step"><div class="si" style="background:rgba(52,226,160,.12)">📡</div><div><div class="st-b">The live paper account (top of dashboard)</div><div class="st-d">Started <b>today</b> with $10,000 per coin. Every move from here is a <b>real forward decision</b>, made hourly. This is the honest scoreboard — it begins flat and grows only as live trades close.</div></div></div>
+        <div class="step"><div class="si" style="background:rgba(91,169,255,.12)">📊</div><div><div class="st-b">The 3-year backtest (Track Record section)</div><div class="st-d">The same rules replayed over <b>years</b> of past data to prove the logic isn't random. It's a <b>reference</b> — it does not add a single dollar to the live account.</div></div></div>
+      </div>
+    </div>
+
+    <div class="lblock">
+      <h3><span class="n">🔁</span> How it improves itself</h3>
+      <p>Once a week, Riptide re-tests its handful of settings (breakout length, stop distance, daily-gate speed) on data it <b>didn't</b> use to choose them — and keeps the better set if there is one. It deliberately has <b>very few knobs</b>, because the more you tune, the more you just memorise the past instead of preparing for the future.</p>
+      <div class="why"><b>Why few knobs:</b> research is blunt — "robustness comes from structure, not complexity." A simple system that holds up everywhere beats a complex one tuned perfectly to yesterday.</div>
+    </div>
+
+    <div class="lblock">
+      <h3><span class="n">👁</span> How to read the dashboard in 10 seconds</h3>
+      <div class="glossary">
+        <div class="gl"><div class="gt">Status dot</div><div class="gd">Green = running. Tells you the engine is alive and updating.</div></div>
+        <div class="gl"><div class="gt">Position cards</div><div class="gd">LONG / SHORT / FLAT for each coin, plus the daily trend and your trailing stop.</div></div>
+        <div class="gl"><div class="gt">Paper Portfolio</div><div class="gd">Your live $ balance vs just holding. "Edge" = how much better than holding.</div></div>
+        <div class="gl"><div class="gt">Track Record</div><div class="gd">The 3-year proof, year by year. Reference only.</div></div>
+      </div>
+    </div>
+
+    <div class="lblock">
+      <h3><span class="n">⚠︎</span> Honest limitations</h3>
+      <ul class="limits">
+        <li><b>It's paper, not real money</b> — no slippage, fees, or funding modelled.</li>
+        <li><b>It wins less than half its trades.</b> That's normal for trend-following — a few big winners pay for many small losers. Don't panic at a losing streak.</li>
+        <li><b>On a straight-up asset it can lag buy-and-hold</b> (it's only in the market part-time), but with far smaller drawdowns.</li>
+        <li><b>It runs on a Mac</b> — cycles only fire while the computer is awake.</li>
+        <li><b>The past is not the future.</b> The backtest proves the logic is sound, not that next year will look like the last three.</li>
+      </ul>
+    </div>
+  </div>`;
 }
 
 function freshness(iso){
-  try{
-    const t=new Date(iso).getTime(); const now=Date.now();
-    const m=Math.round((now-t)/60000);
-    if(m<60) return m+'m ago';
-    const h=Math.floor(m/60); if(h<48) return h+'h ago';
-    return Math.floor(h/24)+'d ago';
-  }catch(e){return ''}
+  try{const t=new Date(iso).getTime(); const m=Math.round((Date.now()-t)/60000);
+    if(m<60) return m+'m ago'; const h=Math.floor(m/60); if(h<48) return h+'h ago'; return Math.floor(h/24)+'d ago';}catch(e){return ''}
+}
+
+function render(s){
+  STATE=s; const st=s.status;
+  $('#livedot').className='dot'+(st.live?'':' stale'); $('#livetxt').textContent=st.live?'LIVE':'STALE';
+  renderDash(s); renderLearn(s);
+  $('#upd').innerHTML=`<span class="dot" style="width:7px;height:7px;${st.live?'':'background:var(--red);box-shadow:none;animation:none'}"></span> State updated ${st.last_run} · ${freshness(st.last_run_iso)}`;
 }
 
 (async function(){
   try{
     const r=await fetch('data/state.json?cb='+Date.now());
     if(!r.ok) throw new Error('state '+r.status);
-    const s=await r.json();
-    render(s);
+    render(await r.json());
   }catch(e){
-    $('#app').innerHTML=`<div class="loading">Could not load engine state.<br><small>${e.message}</small></div>`;
+    $('#view-dash').innerHTML=`<div class="loading">Could not load engine state.<br><small>${e.message}</small></div>`;
     console.error(e);
   }
 })();
