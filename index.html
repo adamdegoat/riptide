@@ -119,9 +119,29 @@ header{
 .perfgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
 .eqcard{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
   border-radius:var(--r);padding:20px;box-shadow:var(--shadow)}
-.eqhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.eqhead{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px;gap:10px}
 .eqhead .t{font-family:'Sora';font-weight:700;font-size:15px;display:flex;align-items:center;gap:9px}
 .eqhead .pin{width:9px;height:9px;border-radius:3px}
+.baltag{text-align:right}
+.baltag .k{display:block;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--ink3);font-weight:600}
+.baltag .v{font-size:15px;font-weight:700;margin-top:2px}
+
+/* paper portfolio banner */
+.portbanner{display:flex;align-items:center;gap:26px;background:linear-gradient(135deg,var(--panel2),var(--panel));
+  border:1px solid var(--line);border-radius:var(--r);padding:20px 26px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.portbanner::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--teal),var(--blue))}
+.pb-main .pb-k{font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:var(--ink3);font-weight:600}
+.pb-bal{font-size:40px;font-weight:700;line-height:1.05;margin:4px 0;letter-spacing:.5px}
+.pb-sub{font-size:13px;color:var(--ink2)}
+.pb-divider{width:1px;align-self:stretch;background:var(--line)}
+.pb-cmp{display:flex;flex-direction:column;gap:7px;min-width:170px}
+.pb-cmprow{display:flex;justify-content:space-between;font-size:13px;color:var(--ink2)}
+.pb-cmprow.edge{border-top:1px solid var(--line-soft);padding-top:7px;margin-top:1px;font-weight:600;color:var(--ink)}
+.pb-cmprow b{font-size:14px}
+.bt-note{margin-top:16px;font-size:12px;color:var(--ink2);line-height:1.6;background:rgba(91,169,255,.05);
+  border:1px solid rgba(91,169,255,.15);border-radius:12px;padding:13px 16px}
+.bt-note b{color:var(--ink)}
+@media(max-width:880px){.portbanner{flex-direction:column;align-items:stretch;gap:16px}.pb-divider{width:auto;height:1px}.pb-bal{font-size:34px}}
 .eqret{font-family:'JetBrains Mono';font-size:26px;font-weight:700;margin:8px 0 2px}
 .eqsub{font-size:12px;color:var(--ink2);margin-bottom:14px}
 .chartbox{position:relative;width:100%}
@@ -299,6 +319,31 @@ function statusStrip(st){
   return `<div class="statusgrid">${cells.map(c=>`<div class="statcell"><div class="k">${c[0]}</div><div class="v">${c[1]}</div></div>`).join('')}</div>`;
 }
 
+function balOf(a){const ec=a.perf&&a.perf.equity_curve; return ec?ec[ec.length-1][1]:10000;}
+function curveStart(s){
+  const ec=s.assets.BTC.perf.equity_curve;
+  try{return new Date(ec[0][0]).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});}catch(e){return '';}
+}
+function portfolioBanner(s){
+  const bal=balOf(s.assets.BTC)+balOf(s.assets.ETH);
+  const dep=20000, pnl=bal-dep, ret=pnl/dep*100;
+  const hodl=s.combined.hodl_pct;
+  const beat=ret-hodl;
+  return `<div class="portbanner">
+    <div class="pb-main">
+      <div class="pb-k">Total Paper Portfolio</div>
+      <div class="pb-bal mono">${fmtUSD(bal,2)}</div>
+      <div class="pb-sub">$20,000 deployed · <b class="${cls(pnl)}">${(pnl>=0?'+':'−')+fmtUSD(Math.abs(pnl),2)}</b> <span class="${cls(ret)}">(${sign(ret)})</span></div>
+    </div>
+    <div class="pb-divider"></div>
+    <div class="pb-cmp">
+      <div class="pb-cmprow"><span>Riptide</span><b class="mono ${cls(ret)}">${sign(ret)}</b></div>
+      <div class="pb-cmprow"><span>Buy &amp; Hold</span><b class="mono ${cls(hodl)}">${sign(hodl)}</b></div>
+      <div class="pb-cmprow edge"><span>Edge</span><b class="mono ${cls(beat)}">${sign(beat)}</b></div>
+    </div>
+  </div>`;
+}
+
 function stanceCard(sym,a){
   const long=a.stance==='LONG';
   const dir=long?'long':'short';
@@ -335,7 +380,7 @@ function stanceCard(sym,a){
   </div>`;
 }
 
-function eqCard(title,pin,a,isCombo){
+function eqCard(title,pin,a,isCombo,deployed,balance){
   const p=a.perf||a;
   const ret=p.return_pct, hodl=p.hodl_pct;
   const beat=ret-hodl;
@@ -344,13 +389,17 @@ function eqCard(title,pin,a,isCombo){
     chart=`<div class="chartbox">${sparkChart(p.equity_curve,p.hodl_curve,440,120)}</div>
     <div class="legend"><span><i style="background:${ret>=0?'#34e2a0':'#ff5c72'}"></i>Riptide</span><span><i style="background:#5a6b82"></i>Buy &amp; Hold</span></div>`;
   }
+  const pnl=balance-deployed;
   const line= isCombo
     ? [['Win Rate',p.winrate.toFixed(1)+'%'],['Trades',p.n_trades],['Max DD',sign(p.max_dd,1)]]
     : [['Win Rate',p.winrate.toFixed(1)+'%'],['Profit Factor',p.profit_factor.toFixed(2)],['Sharpe',p.sharpe.toFixed(2)]];
   return `<div class="eqcard">
-    <div class="eqhead"><div class="t"><span class="pin" style="background:${pin}"></span>${title}</div></div>
+    <div class="eqhead">
+      <div class="t"><span class="pin" style="background:${pin}"></span>${title}</div>
+      <div class="baltag"><span class="k">Paper balance</span><span class="v mono ${cls(pnl)}">${fmtUSD(balance,0)}</span></div>
+    </div>
     <div class="eqret ${cls(ret)}">${sign(ret)}</div>
-    <div class="eqsub">vs Buy&amp;Hold <b class="${cls(hodl)}">${sign(hodl)}</b> · edge <b class="${cls(beat)}">${sign(beat)}</b></div>
+    <div class="eqsub">${fmtUSD(deployed,0)} deployed → <b class="${cls(pnl)}">${(pnl>=0?'+':'−')+fmtUSD(Math.abs(pnl),0)}</b> P&amp;L · vs Buy&amp;Hold <b class="${cls(hodl)}">${sign(hodl)}</b></div>
     ${chart}
     <div class="statline">${line.map(l=>`<div><div class="k">${l[0]}</div><div class="v">${l[1]}</div></div>`).join('')}</div>
   </div>`;
@@ -459,12 +508,14 @@ function render(s){
   </div>
 
   <div class="sec">
-    <div class="sec-h"><h2>Performance vs Buy &amp; Hold</h2><span class="hint">paper · $10k notional each</span><div class="rule"></div></div>
-    <div class="perfgrid">
-      ${eqCard('BTC','#f08c00',s.assets.BTC,false)}
-      ${eqCard('ETH','#5d6dff',s.assets.ETH,false)}
-      ${eqCard('Combined','#2ad6c5',s.combined,true)}
+    <div class="sec-h"><h2>Paper Portfolio</h2><span class="hint">$10,000 notional per asset · the flip is the exit</span><div class="rule"></div></div>
+    ${portfolioBanner(s)}
+    <div class="perfgrid" style="margin-top:18px">
+      ${eqCard('BTC','#f08c00',s.assets.BTC,false,10000,balOf(s.assets.BTC))}
+      ${eqCard('ETH','#5d6dff',s.assets.ETH,false,10000,balOf(s.assets.ETH))}
+      ${eqCard('Combined','#2ad6c5',s.combined,true,20000,balOf(s.assets.BTC)+balOf(s.assets.ETH))}
     </div>
+    <div class="bt-note">📊 <b>Track record began ${curveStart(s)}</b> — the engine replayed every historical 4H candle to build this paper record. Bars before <b>today</b> are a backtest (how it <i>would</i> have traded); from today forward, every position is a live hourly decision. No real capital is at risk.</div>
   </div>
 
   <div class="sec">
