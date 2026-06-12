@@ -141,7 +141,22 @@ header{
 .bt-note{margin-top:16px;font-size:12px;color:var(--ink2);line-height:1.6;background:rgba(91,169,255,.05);
   border:1px solid rgba(91,169,255,.15);border-radius:12px;padding:13px 16px}
 .bt-note b{color:var(--ink)}
-@media(max-width:880px){.portbanner{flex-direction:column;align-items:stretch;gap:16px}.pb-divider{width:auto;height:1px}.pb-bal{font-size:34px}}
+.freshchart{position:relative;height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  border:1px dashed var(--line);border-radius:12px;background:rgba(91,169,255,.03);color:var(--ink3);font-size:12px}
+.freshchart .flatline{width:80%;height:2px;background:repeating-linear-gradient(90deg,var(--teal) 0 8px,transparent 8px 14px);opacity:.5;border-radius:2px}
+
+/* backtest validation panel */
+.btpanel{margin-top:16px;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;box-shadow:var(--shadow)}
+.btp-head{margin-bottom:16px}
+.btp-k{font-family:'Sora';font-size:14px;font-weight:700;display:flex;align-items:center;gap:10px}
+.btp-badge{font-size:9px;letter-spacing:1px;text-transform:uppercase;font-weight:700;color:var(--ink3);background:var(--panel);border:1px solid var(--line);padding:3px 8px;border-radius:6px}
+.btp-sub{font-size:12px;color:var(--ink2);margin-top:7px;line-height:1.55;max-width:760px}
+.btp-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:11px;overflow:hidden}
+.btp-grid>div{background:var(--panel);padding:13px 14px}
+.btp-grid .k{font-size:9.5px;letter-spacing:1.1px;text-transform:uppercase;color:var(--ink3);font-weight:600}
+.btp-grid .v{font-size:17px;font-weight:700;margin-top:5px;font-family:'JetBrains Mono'}
+@media(max-width:880px){.portbanner{flex-direction:column;align-items:stretch;gap:16px}.pb-divider{width:auto;height:1px}.pb-bal{font-size:34px}
+  .btp-grid{grid-template-columns:repeat(2,1fr)}}
 .eqret{font-family:'JetBrains Mono';font-size:26px;font-weight:700;margin:8px 0 2px}
 .eqsub{font-size:12px;color:var(--ink2);margin-bottom:14px}
 .chartbox{position:relative;width:100%}
@@ -313,7 +328,7 @@ function statusStrip(st){
     ['Last Run', `${st.last_run.split(',')[1]?.trim()||st.last_run} <small>${st.last_run.split(',')[0]}</small>`],
     ['Next Cycle', `${st.next_run} <small>SGT</small>`],
     ['Cycle #', `${st.cycle.toLocaleString()}`],
-    ['Running Since', `${st.first_run}`],
+    ['Paper Live Since', `${st.live_since||st.first_run}`],
     ['Last Recalib', `${st.last_recalib}`],
   ];
   return `<div class="statusgrid">${cells.map(c=>`<div class="statcell"><div class="k">${c[0]}</div><div class="v">${c[1]}</div></div>`).join('')}</div>`;
@@ -340,6 +355,24 @@ function portfolioBanner(s){
       <div class="pb-cmprow"><span>Riptide</span><b class="mono ${cls(ret)}">${sign(ret)}</b></div>
       <div class="pb-cmprow"><span>Buy &amp; Hold</span><b class="mono ${cls(hodl)}">${sign(hodl)}</b></div>
       <div class="pb-cmprow edge"><span>Edge</span><b class="mono ${cls(beat)}">${sign(beat)}</b></div>
+    </div>
+  </div>`;
+}
+
+function backtestPanel(b){
+  if(!b) return '';
+  const beat=b.beating;
+  return `<div class="btpanel">
+    <div class="btp-head">
+      <div><div class="btp-k">Backtest Validation <span class="btp-badge">reference only</span></div>
+      <div class="btp-sub">How the engine performed replaying <b>${b.n_trades}</b> trades across history since <b>${b.start_date}</b> — used to validate the logic, <b>not</b> counted in the live paper account.</div></div>
+    </div>
+    <div class="btp-grid">
+      <div><div class="k">Riptide</div><div class="v ${cls(b.return_pct)}">${sign(b.return_pct)}</div></div>
+      <div><div class="k">Buy &amp; Hold</div><div class="v ${cls(b.hodl_pct)}">${sign(b.hodl_pct)}</div></div>
+      <div><div class="k">Edge vs HODL</div><div class="v ${cls(b.edge)}">${sign(b.edge)}</div></div>
+      <div><div class="k">Win Rate</div><div class="v">${b.winrate.toFixed(1)}%</div></div>
+      <div><div class="k">Verdict</div><div class="v" style="font-size:13px;color:${beat?'var(--grn)':'var(--red)'}">${beat?'Beat hold':'Underperformed'}</div></div>
     </div>
   </div>`;
 }
@@ -385,9 +418,11 @@ function eqCard(title,pin,a,isCombo,deployed,balance){
   const ret=p.return_pct, hodl=p.hodl_pct;
   const beat=ret-hodl;
   let chart='';
-  if(p.equity_curve){
+  if(p.equity_curve && p.equity_curve.length>=2){
     chart=`<div class="chartbox">${sparkChart(p.equity_curve,p.hodl_curve,440,120)}</div>
     <div class="legend"><span><i style="background:${ret>=0?'#34e2a0':'#ff5c72'}"></i>Riptide</span><span><i style="background:#5a6b82"></i>Buy &amp; Hold</span></div>`;
+  } else {
+    chart=`<div class="freshchart"><div class="flatline"></div><span>📡 Live since today — equity curve builds as trades close</span></div>`;
   }
   const pnl=balance-deployed;
   const line= isCombo
@@ -515,7 +550,8 @@ function render(s){
       ${eqCard('ETH','#5d6dff',s.assets.ETH,false,10000,balOf(s.assets.ETH))}
       ${eqCard('Combined','#2ad6c5',s.combined,true,20000,balOf(s.assets.BTC)+balOf(s.assets.ETH))}
     </div>
-    <div class="bt-note">📊 <b>Track record began ${curveStart(s)}</b> — the engine replayed every historical 4H candle to build this paper record. Bars before <b>today</b> are a backtest (how it <i>would</i> have traded); from today forward, every position is a live hourly decision. No real capital is at risk.</div>
+    <div class="bt-note">📡 <b>Live paper account started ${s.status.live_since}.</b> The portfolio above tracks only real, forward hourly decisions from that date — it begins at $20,000 and moves as live trades close. The engine still learns from all historical data (see below); that history is shown separately as a backtest and is <b>not</b> mixed into the live balance.</div>
+    ${backtestPanel(s.backtest)}
   </div>
 
   <div class="sec">
