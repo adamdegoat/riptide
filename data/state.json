@@ -1,10 +1,10 @@
 {
  "status": {
   "live": true,
-  "last_run": "12 Jun 2026, 09:44 SGT",
-  "last_run_iso": "2026-06-12T09:44:38.721633+08:00",
-  "cycle": 14,
-  "next_run": "10:44",
+  "last_run": "12 Jun 2026, 10:02 SGT",
+  "last_run_iso": "2026-06-12T10:02:00.157423+08:00",
+  "cycle": 15,
+  "next_run": "11:02",
   "uptime_days": 0,
   "first_run": "12 Jun 2026",
   "live_since": "12 Jun 2026",
@@ -20,12 +20,12 @@
    "regime": "trend_up",
    "confidence": 0.269,
    "entry": 62639.23,
-   "price": 63400.81,
+   "price": 63466.19,
    "size": 0.71,
-   "unrealized_pct": 1.22,
-   "unrealized_r": 0.75,
-   "target": 66481.6,
-   "invalidation": 61141.56,
+   "unrealized_pct": 1.32,
+   "unrealized_r": 0.82,
+   "target": 66546.98,
+   "invalidation": 61206.94,
    "tf": {
     "daily_bias": "down",
     "fourh": "LONG",
@@ -48,7 +48,7 @@
       10000.0
      ],
      [
-      1781228678721,
+      1781229720157,
       10000.0
      ]
     ],
@@ -58,7 +58,7 @@
       10000.0
      ],
      [
-      1781228678721,
+      1781229720157,
       10000.0
      ]
     ]
@@ -83,12 +83,12 @@
    "regime": "chop",
    "confidence": 0.246,
    "entry": 2128.7,
-   "price": 1665.39,
+   "price": 1667.8,
    "size": 0.64,
-   "unrealized_pct": 21.76,
-   "unrealized_r": 9.94,
-   "target": 1555.96,
-   "invalidation": 1745.64,
+   "unrealized_pct": 21.65,
+   "unrealized_r": 9.9,
+   "target": 1558.37,
+   "invalidation": 1748.05,
    "tf": {
     "daily_bias": "down",
     "fourh": "SHORT",
@@ -111,7 +111,7 @@
       10000.0
      ],
      [
-      1781228678721,
+      1781229720157,
       10000.0
      ]
     ],
@@ -121,7 +121,7 @@
       10000.0
      ],
      [
-      1781228678721,
+      1781229720157,
       10000.0
      ]
     ]
