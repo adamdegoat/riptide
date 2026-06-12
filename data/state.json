@@ -1,10 +1,10 @@
 {
  "status": {
   "live": true,
-  "last_run": "12 Jun 2026, 11:02 SGT",
-  "last_run_iso": "2026-06-12T11:02:00.218472+08:00",
-  "cycle": 17,
-  "next_run": "12:02",
+  "last_run": "12 Jun 2026, 12:02 SGT",
+  "last_run_iso": "2026-06-12T12:02:04.799582+08:00",
+  "cycle": 18,
+  "next_run": "13:02",
   "uptime_days": 0,
   "first_run": "12 Jun 2026",
   "live_since": "12 Jun 2026",
@@ -18,12 +18,12 @@
    "since": "\u2014",
    "since_bars": 0,
    "entry": 0,
-   "price": 63614.1,
+   "price": 63492.65,
    "size": 0,
    "unrealized_pct": 0.0,
    "unrealized_r": 0,
    "trail": null,
-   "donchian_hi": 68146.3,
+   "donchian_hi": 67923.24,
    "donchian_lo": 59130.91,
    "tf": {
     "daily_bias": "down"
@@ -44,7 +44,7 @@
       10000.0
      ],
      [
-      1781233320218,
+      1781236924799,
       10000.0
      ]
     ],
@@ -54,14 +54,14 @@
       10000.0
      ],
      [
-      1781233320218,
+      1781236924799,
       10000.0
      ]
     ]
    },
    "backtest": {
     "return_pct": 104.2,
-    "hodl_pct": 140.6,
+    "hodl_pct": 140.3,
     "winrate": 43.9,
     "avg_r": 0.71,
     "profit_factor": 1.88,
@@ -87,7 +87,7 @@
       "ret": 18.7
      }
     ],
-    "start_date": "18 Jun 23 00:00"
+    "start_date": "18 Jun 23 04:00"
    }
   },
   "ETH": {
@@ -95,12 +95,12 @@
    "since": "\u2014",
    "since_bars": 0,
    "entry": 0,
-   "price": 1675.17,
+   "price": 1671.74,
    "size": 0,
    "unrealized_pct": 0.0,
    "unrealized_r": 0,
    "trail": null,
-   "donchian_hi": 1943.87,
+   "donchian_hi": 1919.01,
    "donchian_lo": 1505.68,
    "tf": {
     "daily_bias": "down"
@@ -121,7 +121,7 @@
       10000.0
      ],
      [
-      1781233320218,
+      1781236924799,
       10000.0
      ]
     ],
@@ -131,14 +131,14 @@
       10000.0
      ],
      [
-      1781233320218,
+      1781236924799,
       10000.0
      ]
     ]
    },
    "backtest": {
     "return_pct": 211.4,
-    "hodl_pct": -9.1,
+    "hodl_pct": -9.2,
     "winrate": 45.3,
     "avg_r": 0.47,
     "profit_factor": 2.06,
@@ -164,7 +164,7 @@
       "ret": 32.4
      }
     ],
-    "start_date": "18 Jun 23 00:00"
+    "start_date": "18 Jun 23 04:00"
    }
   }
  },
@@ -178,8 +178,8 @@
  },
  "backtest": {
   "return_pct": 157.8,
-  "hodl_pct": 65.8,
-  "edge": 92.0,
+  "hodl_pct": 65.6,
+  "edge": 92.2,
   "winrate": 44.6,
   "profit_factor": 1.97,
   "sharpe": 1.73,
@@ -187,7 +187,7 @@
   "exposure": 27.8,
   "n_trades": 130,
   "beating": true,
-  "start_date": "18 Jun 23 00:00",
+  "start_date": "18 Jun 23 04:00",
   "by_year": [
    {
     "year": 2023,
