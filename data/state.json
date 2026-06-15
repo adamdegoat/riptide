@@ -1,10 +1,10 @@
 {
  "status": {
   "live": true,
-  "last_run": "16 Jun 2026, 03:02 SGT",
-  "last_run_iso": "2026-06-16T03:02:00.271527+08:00",
-  "cycle": 104,
-  "next_run": "04:02",
+  "last_run": "16 Jun 2026, 04:02 SGT",
+  "last_run_iso": "2026-06-16T04:02:00.412118+08:00",
+  "cycle": 105,
+  "next_run": "05:02",
   "uptime_days": 4,
   "first_run": "12 Jun 2026",
   "live_since": "12 Jun 2026",
@@ -18,19 +18,19 @@
    "since": "\u2014",
    "since_bars": 0,
    "entry": 0,
-   "price": 66809.74,
+   "price": 66544.68,
    "size": 0,
    "unrealized_pct": 0.0,
    "unrealized_r": 0,
    "trail": null,
-   "donchian_hi": 66385.12,
-   "donchian_lo": 60198.0,
+   "donchian_hi": 67292.15,
+   "donchian_lo": 60393.96,
    "tf": {
     "daily_bias": "down"
    },
    "perf": {
     "return_pct": 0.0,
-    "hodl_pct": 6.6,
+    "hodl_pct": 5.6,
     "winrate": 0,
     "avg_r": 0,
     "profit_factor": 0,
@@ -128,7 +128,11 @@
       10000.0
      ],
      [
-      1781550120271,
+      1781539200000.0,
+      10000.0
+     ],
+     [
+      1781553720412,
       10000.0
      ]
     ],
@@ -222,14 +226,18 @@
       10664.23
      ],
      [
-      1781550120271,
-      10664.23
+      1781539200000.0,
+      10556.82
+     ],
+     [
+      1781553720412,
+      10556.82
      ]
     ]
    },
    "backtest": {
     "return_pct": 91.4,
-    "hodl_pct": 159.6,
+    "hodl_pct": 158.3,
     "winrate": 43.9,
     "avg_r": 0.62,
     "profit_factor": 1.81,
@@ -255,7 +263,7 @@
       "ret": 18.7
      }
     ],
-    "start_date": "21 Jun 23 16:00"
+    "start_date": "21 Jun 23 20:00"
    }
   },
   "ETH": {
@@ -263,19 +271,19 @@
    "since": "\u2014",
    "since_bars": 0,
    "entry": 0,
-   "price": 1829.31,
+   "price": 1819.87,
    "size": 0,
    "unrealized_pct": 0.0,
    "unrealized_r": 0,
    "trail": null,
-   "donchian_hi": 1769.0,
-   "donchian_lo": 1535.68,
+   "donchian_hi": 1849.54,
+   "donchian_lo": 1544.87,
    "tf": {
     "daily_bias": "down"
    },
    "perf": {
     "return_pct": 0.0,
-    "hodl_pct": 11.0,
+    "hodl_pct": 9.6,
     "winrate": 0,
     "avg_r": 0,
     "profit_factor": 0,
@@ -373,7 +381,11 @@
       10000.0
      ],
      [
-      1781550120271,
+      1781539200000.0,
+      10000.0
+     ],
+     [
+      1781553720412,
       10000.0
      ]
     ],
@@ -467,25 +479,29 @@
       11103.47
      ],
      [
-      1781550120271,
-      11103.47
+      1781539200000.0,
+      10961.24
+     ],
+     [
+      1781553720412,
+      10961.24
      ]
     ]
    },
    "backtest": {
-    "return_pct": 226.5,
-    "hodl_pct": 5.3,
+    "return_pct": 223.0,
+    "hodl_pct": 5.0,
     "winrate": 46.9,
-    "avg_r": 0.52,
-    "profit_factor": 2.13,
+    "avg_r": 0.51,
+    "profit_factor": 2.12,
     "max_dd": -14.3,
-    "sharpe": 1.87,
+    "sharpe": 1.85,
     "n_trades": 64,
     "exposure": 27.4,
     "by_year": [
      {
       "year": 2023,
-      "ret": -3.4
+      "ret": -4.5
      },
      {
       "year": 2024,
@@ -500,34 +516,34 @@
       "ret": 32.4
      }
     ],
-    "start_date": "21 Jun 23 16:00"
+    "start_date": "21 Jun 23 20:00"
    }
   }
  },
  "combined": {
   "return_pct": 0.0,
-  "hodl_pct": 8.8,
+  "hodl_pct": 7.6,
   "n_trades": 0,
   "winrate": 0.0,
   "max_dd": 0,
   "sharpe": 0.0
  },
  "backtest": {
-  "return_pct": 158.9,
-  "hodl_pct": 82.5,
-  "edge": 76.4,
+  "return_pct": 157.2,
+  "hodl_pct": 81.7,
+  "edge": 75.5,
   "winrate": 45.4,
   "profit_factor": 1.97,
-  "sharpe": 1.7,
+  "sharpe": 1.69,
   "max_dd": -17.4,
   "exposure": 27.7,
   "n_trades": 130,
   "beating": true,
-  "start_date": "21 Jun 23 16:00",
+  "start_date": "21 Jun 23 20:00",
   "by_year": [
    {
     "year": 2023,
-    "ret": -0.8
+    "ret": -1.4
    },
    {
     "year": 2024,
