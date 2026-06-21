@@ -1,10 +1,10 @@
 {
  "status": {
   "live": true,
-  "last_run": "21 Jun 2026, 11:02 SGT",
-  "last_run_iso": "2026-06-21T11:02:00.252461+08:00",
-  "cycle": 232,
-  "next_run": "12:02",
+  "last_run": "21 Jun 2026, 12:02 SGT",
+  "last_run_iso": "2026-06-21T12:02:00.194055+08:00",
+  "cycle": 233,
+  "next_run": "13:02",
   "uptime_days": 9,
   "first_run": "12 Jun 2026",
   "live_since": "12 Jun 2026",
@@ -14,29 +14,29 @@
  },
  "assets": {
   "BTC": {
-   "stance": "SHORT",
-   "since": "18 Jun 26 20:00",
-   "since_bars": 14,
-   "entry": 62369.44,
-   "price": 64243.99,
-   "size": 1.0,
-   "unrealized_pct": -3.01,
-   "unrealized_r": -2.6,
-   "trail": 64498.72,
+   "stance": "FLAT",
+   "since": "\u2014",
+   "since_bars": 0,
+   "entry": 0,
+   "price": 64418.0,
+   "size": 0,
+   "unrealized_pct": 0.0,
+   "unrealized_r": 0,
+   "trail": null,
    "donchian_hi": 66992.0,
    "donchian_lo": 62272.07,
    "tf": {
     "daily_bias": "down"
    },
    "perf": {
-    "return_pct": 0.0,
-    "hodl_pct": 1.9,
-    "winrate": 0,
-    "avg_r": 0,
-    "profit_factor": 0,
-    "max_dd": 0,
+    "return_pct": -3.3,
+    "hodl_pct": 2.1,
+    "winrate": 0.0,
+    "avg_r": -3.0,
+    "profit_factor": 0.0,
+    "max_dd": -3.3,
     "sharpe": 0,
-    "n_trades": 0,
+    "n_trades": 1,
     "exposure": 0.0,
     "equity_curve": [
      [
@@ -256,8 +256,12 @@
       10000.0
      ],
      [
-      1782010920252,
-      10000.0
+      1782000000000.0,
+      9670.26
+     ],
+     [
+      1782014520194,
+      9670.26
      ]
     ],
     "hodl_curve": [
@@ -478,20 +482,24 @@
       10189.73
      ],
      [
-      1782010920252,
-      10189.73
+      1782000000000.0,
+      10210.01
+     ],
+     [
+      1782014520194,
+      10210.01
      ]
     ]
    },
    "backtest": {
-    "return_pct": 127.2,
-    "hodl_pct": 141.8,
-    "winrate": 41.6,
-    "avg_r": 0.7,
-    "profit_factor": 1.89,
+    "return_pct": 119.7,
+    "hodl_pct": 143.0,
+    "winrate": 41.0,
+    "avg_r": 0.65,
+    "profit_factor": 1.83,
     "max_dd": -18.0,
-    "sharpe": 1.78,
-    "n_trades": 77,
+    "sharpe": 1.72,
+    "n_trades": 78,
     "exposure": 32.9,
     "by_year": [
      {
@@ -508,10 +516,10 @@
      },
      {
       "year": 2026,
-      "ret": 16.3
+      "ret": 12.5
      }
     ],
-    "start_date": "26 Jun 23 16:00"
+    "start_date": "26 Jun 23 20:00"
    }
   },
   "ETH": {
@@ -519,7 +527,7 @@
    "since": "\u2014",
    "since_bars": 0,
    "entry": 0,
-   "price": 1735.13,
+   "price": 1737.92,
    "size": 0,
    "unrealized_pct": 0.0,
    "unrealized_r": 0,
@@ -531,7 +539,7 @@
    },
    "perf": {
     "return_pct": 0.0,
-    "hodl_pct": 4.8,
+    "hodl_pct": 4.6,
     "winrate": 0,
     "avg_r": 0,
     "profit_factor": 0,
@@ -757,7 +765,11 @@
       10000.0
      ],
      [
-      1782010920252,
+      1782000000000.0,
+      10000.0
+     ],
+     [
+      1782014520194,
       10000.0
      ]
     ],
@@ -979,14 +991,18 @@
       10475.06
      ],
      [
-      1782010920252,
-      10475.06
+      1782000000000.0,
+      10455.74
+     ],
+     [
+      1782014520194,
+      10455.74
      ]
     ]
    },
    "backtest": {
     "return_pct": 228.0,
-    "hodl_pct": -0.2,
+    "hodl_pct": -0.0,
     "winrate": 39.5,
     "avg_r": 0.35,
     "profit_factor": 1.89,
@@ -1012,30 +1028,30 @@
       "ret": 19.7
      }
     ],
-    "start_date": "26 Jun 23 16:00"
+    "start_date": "26 Jun 23 20:00"
    }
   }
  },
  "combined": {
-  "return_pct": 0.0,
+  "return_pct": -1.6,
   "hodl_pct": 3.3,
-  "n_trades": 0,
+  "n_trades": 1,
   "winrate": 0.0,
-  "max_dd": 0,
+  "max_dd": -3.3,
   "sharpe": 0.0
  },
  "backtest": {
-  "return_pct": 177.6,
-  "hodl_pct": 70.8,
-  "edge": 106.8,
-  "winrate": 40.5,
-  "profit_factor": 1.89,
-  "sharpe": 1.77,
+  "return_pct": 173.8,
+  "hodl_pct": 71.5,
+  "edge": 102.3,
+  "winrate": 40.2,
+  "profit_factor": 1.86,
+  "sharpe": 1.73,
   "max_dd": -24.3,
   "exposure": 33.7,
-  "n_trades": 158,
+  "n_trades": 159,
   "beating": true,
-  "start_date": "26 Jun 23 16:00",
+  "start_date": "26 Jun 23 20:00",
   "by_year": [
    {
     "year": 2023,
@@ -1051,11 +1067,28 @@
    },
    {
     "year": 2026,
-    "ret": 18.0
+    "ret": 16.1
    }
   ]
  },
- "trades": [],
+ "trades": [
+  {
+   "asset": "BTC",
+   "dir": "SHORT",
+   "entry_t": 1781784000000.0,
+   "exit_t": 1782000000000.0,
+   "entry": 62369.44,
+   "exit": 64426.0,
+   "pnl_pct": -3.3,
+   "r": -3.0,
+   "regime": "down",
+   "win": false,
+   "reason": "trail stop",
+   "size": 1.0,
+   "entry_time": "18 Jun 26 20:00",
+   "exit_time": "21 Jun 26 08:00"
+  }
+ ],
  "learning": {
   "params": {
    "don_entry": 30,
@@ -1093,10 +1126,10 @@
     ]
    }
   ],
-  "recalibrations": 38,
+  "recalibrations": 39,
   "edge": {
    "beating_hodl": false,
-   "z": 0,
+   "z": -1.0,
    "verdict": "building track record"
   }
  }
