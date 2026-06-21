@@ -1,10 +1,10 @@
 {
  "status": {
   "live": true,
-  "last_run": "21 Jun 2026, 10:02 SGT",
-  "last_run_iso": "2026-06-21T10:02:00.245871+08:00",
-  "cycle": 231,
-  "next_run": "11:02",
+  "last_run": "21 Jun 2026, 11:02 SGT",
+  "last_run_iso": "2026-06-21T11:02:00.252461+08:00",
+  "cycle": 232,
+  "next_run": "12:02",
   "uptime_days": 9,
   "first_run": "12 Jun 2026",
   "live_since": "12 Jun 2026",
@@ -18,10 +18,10 @@
    "since": "18 Jun 26 20:00",
    "since_bars": 14,
    "entry": 62369.44,
-   "price": 64236.0,
+   "price": 64243.99,
    "size": 1.0,
-   "unrealized_pct": -2.99,
-   "unrealized_r": -2.59,
+   "unrealized_pct": -3.01,
+   "unrealized_r": -2.6,
    "trail": 64498.72,
    "donchian_hi": 66992.0,
    "donchian_lo": 62272.07,
@@ -256,7 +256,7 @@
       10000.0
      ],
      [
-      1782007320245,
+      1782010920252,
       10000.0
      ]
     ],
@@ -478,7 +478,7 @@
       10189.73
      ],
      [
-      1782007320245,
+      1782010920252,
       10189.73
      ]
     ]
@@ -519,7 +519,7 @@
    "since": "\u2014",
    "since_bars": 0,
    "entry": 0,
-   "price": 1736.16,
+   "price": 1735.13,
    "size": 0,
    "unrealized_pct": 0.0,
    "unrealized_r": 0,
@@ -757,7 +757,7 @@
       10000.0
      ],
      [
-      1782007320245,
+      1782010920252,
       10000.0
      ]
     ],
@@ -979,7 +979,7 @@
       10475.06
      ],
      [
-      1782007320245,
+      1782010920252,
       10475.06
      ]
     ]
@@ -1093,7 +1093,7 @@
     ]
    }
   ],
-  "recalibrations": 37,
+  "recalibrations": 38,
   "edge": {
    "beating_hodl": false,
    "z": 0,
